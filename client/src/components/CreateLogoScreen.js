@@ -162,6 +162,14 @@ class CreateLogoScreen extends Component {
         }
     }
 
+    deleteText = () =>{
+        console.log("About to delete text #" + this.state.currentIndex);
+        var updated = this.state.textsArray;
+        updated.splice(this.state.currentIndex,1);
+        this.closeForm();
+        this.setState({textsArray: updated, currentIndex: 0});
+    }
+
     render() {
         let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius;
 
@@ -226,6 +234,13 @@ class CreateLogoScreen extends Component {
                                             <input id= "formFontSizeInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = {e => this.handleTextFontSizeChange(e.target.value)}/>
                                         </div>
+                                    </div>
+                                </div>
+                                <div style={{paddingBottom: "5px"}}>
+                                    <div className="form-group" style={{margin: "auto", textAlign: "center"}}>
+                                        <button onClick = {this.deleteText} style = {{borderRadius: "8px", backgroundColor: "red", color: "black"}}>
+                                            Delete this text
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -337,7 +352,7 @@ class CreateLogoScreen extends Component {
                                                     {single_text.getText()}
                                                 </div>
                                                 <div className="edit">
-                                                    <i onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i>
+                                                    <i style ={{fontSize: "0.9em", verticalAlign: "100%"}} onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i>
                                                 </div>
                                             </div>
                                         ))}

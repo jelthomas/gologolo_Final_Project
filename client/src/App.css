@@ -165,11 +165,11 @@ input{
 }
 
 .edit {
-	padding-top: 12px;	
+	/* padding-top: 12px;	
 	padding-right: 66px;
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: 0; */
 	display: none;
 }
 
