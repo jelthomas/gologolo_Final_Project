@@ -49,9 +49,10 @@ class CreateLogoScreen extends Component {
             borderRadius: 0,
             borderWidth: 0,
             textsArray: [],
-            modalOpen: false
+            currentIndex: 0
         }
     }
+
 
     handleNameChange = (event) =>{
         console.log(this.state.name);
@@ -84,15 +85,19 @@ class CreateLogoScreen extends Component {
     }
 
     handleHeightChange = (event) => {
-        console.log("handleLogoHeightChange to " + event.target.value);
-        this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+        if(event.target.value <= 650){
+            console.log("handleLogoHeightChange to " + event.target.value);
+            this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
+                borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+        }
     }
 
     handleWidthChange = (event) => {
-        console.log("handleLogoWidthChange to " + event.target.value);
-        this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+        if(event.target.value <= 650){
+            console.log("handleLogoWidthChange to " + event.target.value);
+            this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
+                height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+            }
     }
 
     checkNull = () => {
@@ -120,18 +125,42 @@ class CreateLogoScreen extends Component {
     }
 
     handleClick = (index) =>{
-        console.log("Clicked text " + index);
-        document.getElementById("formTextInput").placeholder = this.state.textsArray[index].getText();
-        document.getElementById("formColorInput").placeholder = this.state.textsArray[index].getColor();
-        document.getElementById("formFontSizeInput").placeholder = this.state.textsArray[index].getFontSize();
-        document.getElementById("formTextInput").value = this.state.textsArray[index].getText();
+        document.getElementById("formTextInput").value = this.state.textsArray[index].text;
         document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
-        document.getElementById("formFontSizeInput").value = this.state.textsArray[index].getFontSize();
-        document.getElementById("formTextInput").onchange = "this.handleTextChange(" + index + ")";
+        document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
+        console.log("Opened");
         document.getElementById("asd").style.display = "block";
+        this.setState({currentIndex: index});
     }
 
+    closeForm = () =>{
+        console.log("Closed");
+        document.getElementById("asd").style.display = "none";
+    }
 
+    handleTextChange = (val) =>{
+        console.log("Changing the text of text #" + this.state.currentIndex + " to: " + val);
+        let texts = this.state.textsArray;
+        texts[this.state.currentIndex].text = val;
+        this.setState({textsArray: texts}, () => {document.getElementById("formTextInput").value = this.state.textsArray[this.state.currentIndex].text});
+    }
+
+    handleTextColorChange = (val) =>{
+        console.log("Changing the color of text #" + this.state.currentIndex + " to: " + val);
+        let texts = this.state.textsArray;
+        texts[this.state.currentIndex].color = val;
+        this.setState({textsArray: texts}, () => {document.getElementById("formColorInput").value = this.state.textsArray[this.state.currentIndex].color});
+    }
+
+    handleTextFontSizeChange = (val) =>{
+        let v = parseInt(val,10);
+        if((v <= 100) && (v >= 4)){
+            console.log("Changing the font size of text #" + this.state.currentIndex + " to: " +  v);
+            let texts = this.state.textsArray;
+            texts[this.state.currentIndex].fontSize = v;
+            this.setState({textsArray: texts}, () => {document.getElementById("formFontSizeInput").value = v});
+        }
+    }
 
     render() {
         let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius;
@@ -158,23 +187,22 @@ class CreateLogoScreen extends Component {
                 {(addLogo, { loading, error }) => (
                 <div>
                     <div className="container row">
-                            <nav id = "myNav">
+                            <nav onClick = {this.closeForm} id = "myNav">
                                 <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick={this.addText}>Add New Text</button>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick = {this.addImage}>Add New Image</button>
                             </nav>
                     </div>
                     <div className="container">
-                    <div style = {{position: "absolute", marginLeft: "68%"}}>
-                        <form id="asd" action="" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}}>
+                    <div style = {{position: "absolute", marginLeft: "68%", zIndex: "1"}}>
+                        <div id="asd" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}}>
                                 <div className="row" style={{paddingTop: "20px"}}>
                                     <div className="form-group">
                                         <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
                                             Text:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formTextInput" type="text" style = {{color: "black"}} name="logoName" className="form-control" name="logoName" ref={node => {
-                                                name = node;}} placeholder="" value = "" />
+                                            <input id= "formTextInput" type="text" style = {{color: "black"}} placeholder=""  onChange = {e => this.handleTextChange(e.target.value)} />
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +213,7 @@ class CreateLogoScreen extends Component {
                                         </div>
                                         <div className="col s8">
                                             <input id= "formColorInput" type="color" style = {{width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
-                                                name = node;}} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
+                                                name = node;}} placeholder="" onChange = {e => this.handleTextColorChange(e.target.value)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -195,16 +223,16 @@ class CreateLogoScreen extends Component {
                                             Font Size:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formFontSizeInput" type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
-                                                name = node;}} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
+                                            <input id= "formFontSizeInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder="" onChange = {e => this.handleTextFontSizeChange(e.target.value)}/>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                     </div>
                         <div className="panel panel-default">
                             <div className="row">
-                            <div className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
+                            <div onClick = {this.closeForm} className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
                                 <form name="myForm" onSubmit={e => {
                                     e.preventDefault();
                                     if(this.checkNull()){
@@ -255,26 +283,6 @@ class CreateLogoScreen extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <div className="row" style={{paddingTop: "20px"}}>
-                                            <div className="form-group">
-                                                <div className="col s4" >Text:</div>
-                                                <div className="col s8">
-                                                    <input type="text" name="text" className="form-control" name="text" ref={node => {
-                                                        text = node;
-                                                    }} placeholder={this.state.text} value = {this.state.tempText} onChange = {this.handleInput}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="form-group">
-                                                <div className="col s4">Color:</div>
-                                                <div className="col s8" style={{alignItems: "right"}}>
-                                                    <input type="color" className="form-control" name="color" ref={node => {
-                                                        color = node;
-                                                    }} placeholder={this.state.color} value = {this.state.color} onChange = {this.handleTextColorChange} />
-                                                </div>
-                                            </div>
-                                        </div> */}
                                         <div className="row">
                                             <div className="form-group">
                                                 <div className="col s4">Background Color:</div>
@@ -295,16 +303,6 @@ class CreateLogoScreen extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <div className="row">
-                                            <div className="form-group">
-                                                <div className="col s4">Font Size:</div>
-                                                <div className="col s8">
-                                                    <input type="number" name="fontSize" min="4" max="144" className="form-control" name="fontSize" ref={node => {
-                                                        fontSize = node;
-                                                    }} placeholder={this.state.fontSize} onChange={this.handleFontSizeChange} value={this.state.fontSize}/>
-                                                </div>
-                                            </div>
-                                        </div> */}
                                         <div className="row">
                                             <div className="form-group">
                                                 <div className="col s4">Border Radius:</div>
@@ -332,14 +330,14 @@ class CreateLogoScreen extends Component {
                                 {error && <p>Error :( Please try again</p>}
                             </div>
                             <div className="col s8" style={{width:"66.66666%", height: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
-                                <pre className="logo" style={ styles.container }>
+                                <pre  className="logo" style={ styles.container }>
                                     {this.state.textsArray.map((single_text, index) => (
                                             <div className="profile-pic">
-                                                <div id={index}>
+                                                <div id={index} style = {{color: this.state.textsArray[index].getColor(), fontSize: this.state.textsArray[index].getFontSize() }}>
                                                     {single_text.getText()}
                                                 </div>
                                                 <div className="edit">
-                                                    <a href="#"><i onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i></a>
+                                                    <i onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i>
                                                 </div>
                                             </div>
                                         ))}

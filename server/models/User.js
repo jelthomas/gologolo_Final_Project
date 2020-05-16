@@ -19,7 +19,7 @@ var UserSchema = new mongoose.Schema({
               color: String,
               backgroundColor: String,
               borderColor: String,
-              fontSize: {type: Number, min: 2, max: 100},
+              fontSize: {type: Number, min: 4, max: 100},
               borderRadius: {type: Number, min: 0, max: 100},
               borderWidth: {type: Number, min: 0, max: 100}
            }],

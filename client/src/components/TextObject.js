@@ -3,10 +3,25 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 
 class TextObject{
-    constructor() {
-        this.text = "Hover to edit";
-        this.color = "black";
-        this.fontSize = 12;
+    constructor(text, color, fontSize){
+        if(text === undefined){
+            this.text = "Hover to edit";
+        }
+        else{
+            this.text = text;
+        }
+        if(color === undefined){
+            this.color = "black";
+        }
+        else{
+            this.color = color;
+        }
+        if(fontSize === undefined){
+            this.fontSize = "12pt";
+        }
+        else{
+            this.fontSize = fontSize + "pt";
+        }
     }
 
     getText(){
@@ -14,7 +29,7 @@ class TextObject{
     }
 
     setText(text){
-        this.text = text;
+        this.text = text + "pt";
     }
 
     getColor(){
@@ -30,7 +45,7 @@ class TextObject{
     }
 
     setFontSize(fontSize){
-        this.fontSize = fontSize;
+        this.fontSize = fontSize + "pt";
     }
 }
 
