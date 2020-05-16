@@ -33,17 +33,17 @@ class HomeScreen extends Component {
                     // }
                     return (
                         <div className="container row">
-                            <nav>
+                            <nav id = "myNav">
                                 <div style={{ display: "inline-block", float: "left"}}>
                                     Logo Maker
                                 </div>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right" }}>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", paddingTop: "15px", paddingBottom: "15px" }}>
                                     <Link id="homeScreen_buttons" to="/create">Logout</Link>
                                 </button>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px" }}>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingTop: "15px", paddingBottom: "15px" }}>
                                     <Link id="homeScreen_buttons" to={`/account/${data.user._id}`}>View Account</Link>
                                 </button>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px" }}>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingTop: "15px", paddingBottom: "15px" }}>
                                     <Link id="homeScreen_buttons" to="/create">Create a New Logo</Link>
                                 </button>
                             </nav>

@@ -4,6 +4,9 @@ import { Mutation } from "react-apollo";
 import { Link } from 'react-router-dom';
 import { Modal, Button} from 'react-materialize';
 import TextInput from 'react-materialize/lib/TextInput';
+import M from "materialize-css";
+import "materialize-css/dist/css/materialize.min.css";
+import TextObject from "./TextObject";
 
 
 const ADD_LOGO = gql`
@@ -44,7 +47,8 @@ class CreateLogoScreen extends Component {
             backgroundColor: "#FF0000",
             borderColor: "#FFFFFF",
             borderRadius: 0,
-            borderWidth: 0
+            borderWidth: 0,
+            textsArray: []
         }
     }
 
@@ -60,12 +64,12 @@ class CreateLogoScreen extends Component {
         this.setState({name: event.target.value, width: this.state.width, height: this.state.height});
     }
 
-    handleTextColorChange = (event) => {
-        console.log("handleTextColorChange to " + event.target.value);
-        this.setState({ color: event.target.value, fontSize: this.state.fontSize, backgroundColor: this.state.backgroundColor,
-                        borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-                        padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    }
+    // handleTextColorChange = (event) => {
+    //     console.log("handleTextColorChange to " + event.target.value);
+    //     this.setState({ color: event.target.value, fontSize: this.state.fontSize, backgroundColor: this.state.backgroundColor,
+    //                     borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
+    //                     padding: this.state.padding, margin: this.state.margin, text: this.state.text});
+    // }
 
     handleFontSizeChange = (event) => {
         console.log("handleFontSizeChangeComplete to " + event.target.value);
@@ -155,6 +159,44 @@ class CreateLogoScreen extends Component {
         return true;
     }
 
+    // handleTextChange = (event, len) =>{
+    //     console.log("Changed text number to: " + event.target.value);
+    //     var copy = Object.assign({}, this.state.stylesDict);
+    //     copy[len].text = event.target.value; 
+    //     this.setState({stylesDict: copy, textsArray: this.texts});
+    //     console.log(this.state.stylesDict[len].text);
+    // }
+    handleTextChange = (e, len) => {
+        // Deriving the filter that a checkbox is associated too, and getting its value on change  
+        const style_prop = e.target.name;
+        const val = e.target.value;
+        var texts = this.texts;
+        var copy = {text: val, color: "black", backgroundColor: "", borderColor: "black", fontSize: "10pt", borderRadius: "0px", borderWidth: "0px", borderStyle: "solid"};
+        this.setState(state => (state.stylesDict = copy, state));
+        console.log("New State: " + this.state.stylesDict);
+        console.log("Length of texts array: " + texts.length);
+        console.log("Texts array: " + texts);
+        
+        // texts.props.style.text = this.state.stylesDict[len].text;
+      };
+
+    handleTextColorChange = (event, len) =>{
+        console.log("Changed text color to: " + event.target.value);
+        this.text_styles[len].color = event.target.value;
+        this.setState({stylesDict: this.text_styles});
+        console.log(this.state.stylesDict[len].text);
+    }
+
+    addText = () => {
+        var text = new TextObject();
+        var newTexts = this.state.textsArray.concat(text);
+        this.setState({textsArray: newTexts}); //Add new default text object to array
+    }
+
+    editText = (index, state) =>{
+        var changeText = {}
+    }
+
     render() {
         let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius;
 
@@ -168,17 +210,22 @@ class CreateLogoScreen extends Component {
                 borderColor: this.state.borderColor,
                 borderRadius: this.state.borderRadius + "px",
                 borderStyle: "solid",
+                overflowX: "hidden", 
+                overflowY: "hidden",
+                flexWrap: "wrap",
+                display: "flex"
             }
         }
+
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
                 {(addLogo, { loading, error }) => (
                 <div>
                     <div className="container row">
-                            <nav>
+                            <nav id = "myNav">
                                 <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
                                 
-                                <Modal
+                                {/* <Modal
                                     actions={[<Button className="modalButton" modal="close" node="button" waves="green" onClick={this.reset}>Close</Button>, <Button modal = "close" node="button" waves="green" onClick={this.handleTextChange}>Enter</Button>]}
                                     header="Please enter the text for your logo:"
                                     id="modal-0"
@@ -196,12 +243,12 @@ class CreateLogoScreen extends Component {
                                         startingTop: '10%'
                                     }}
                                     trigger={<Button node="button" className="waves-effect waves-light btn-small">&#9998;</Button>}>
-                                    {/* <TextInput placeholder = "" value = "" onChange = {this.handleInput}
-                                    /> */}
-                            </Modal>
+                                    <TextInput placeholder = "" value = "" onChange = {this.handleInput}
+                                    />
+                            </Modal> */}
 
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px"  }} onclick = {this.addText}>Add New Text</button>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px"  }}onclick = {this.addImage}>Add New Image</button>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick={this.addText}>Add New Text</button>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick = {this.addImage}>Add New Image</button>
                             </nav>
                         </div>
                     <div className="container">
@@ -230,29 +277,29 @@ class CreateLogoScreen extends Component {
                                     <div style={{backgroundColor: "#546e7a", color:"white", paddingLeft: "20px"}}> 
                                         <div className="row" style={{paddingTop: "20px"}}>
                                             <div className="form-group">
-                                                <div className="col s4" >Logo Name:</div>
+                                                <div className="col s4" style = {{marginTop: "10px"}}>Logo Name:</div>
                                                 <div className="col s8">
-                                                    <input type="text" name="logoName" className="form-control" name="logoName" ref={node => {
+                                                    <input type="text" style = {{color: "white"}} name="logoName" className="form-control" name="logoName" ref={node => {
                                                         name = node;
                                                     }} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row" style={{paddingTop: "20px"}}>
+                                        <div className="row">
                                             <div className="form-group">
-                                                <div className="col s4" >Logo Height:</div>
+                                                <div className="col s4" style = {{marginTop: "10px"}}>Logo Height:</div>
                                                 <div className="col s8">
-                                                    <input type="number" name="logoHeight" min="10" max="650" className="form-control" name="logoHeight" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} name="logoHeight" min="10" max="650" className="form-control" name="logoHeight" ref={node => {
                                                         height = node;
                                                     }} placeholder={this.state.height} value = {this.state.height} onChange = {this.handleHeightChange}/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row" style={{paddingTop: "20px"}}>
+                                        <div className="row">
                                             <div className="form-group">
-                                                <div className="col s4" >Logo Width:</div>
+                                                <div className="col s4" style = {{marginTop: "10px"}}>Logo Width:</div>
                                                 <div className="col s8">
-                                                    <input type="number" name="logoWidth" min="10" max="650" className="form-control" name="logoWidth" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} name="logoWidth" min="10" max="650" className="form-control" name="logoWidth" ref={node => {
                                                         width = node;
                                                     }} placeholder={this.state.width} value = {this.state.width} onChange = {this.handleWidthChange}/>
                                                 </div>
@@ -312,7 +359,7 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4">Border Radius:</div>
                                                 <div className="col s8">
-                                                    <input type="number" name="borderRadius" min="0" max="200" className="form-control" name="borderRadius" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} name="borderRadius" min="0" max="200" className="form-control" name="borderRadius" ref={node => {
                                                         borderRadius = node;
                                                     }} placeholder={this.state.borderRadius} onChange={this.handleBorderRadiusChange} value={this.state.borderRadius}/>
                                                 </div>
@@ -322,14 +369,14 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4">Border Width:</div>
                                                 <div className="col s8">
-                                                    <input type="number" name="borderWidth" min="0" max="200" className="form-control" name="borderWidth" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} name="borderWidth" min="0" max="200" className="form-control" name="borderWidth" ref={node => {
                                                         borderWidth = node;
                                                     }} placeholder={this.state.borderWidth} onChange={this.handleBorderWidthChange} value={this.state.borderWidth} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" className="btn btn-success" style={{marginBottom: "1rem", marginLeft: "9.0rem"}}>Submit</button>
+                                    <button type="submit" className="btn btn-success" style={{ display: "block", margin: "0 auto", marginBottom: "20px", backgroundColor: "LimeGreen"}}>Submit</button>
                                 </form>
                                 {loading && <p>Loading...</p>}
                                 {error && <p>Error :( Please try again</p>}
@@ -337,7 +384,11 @@ class CreateLogoScreen extends Component {
                             <div className="col s8" style={{width:"66.66666%", height: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
                                 <div>
                                     <pre className="logo" style={ styles.container }>
-                                        
+                                            {this.state.textsArray.map((single_text, index) => (
+                                                <div id={index} onClick = {this.handleClick}>
+                                                    {single_text.getText()}
+                                                </div>
+                                            ))}
                                     </pre>
                                 </div>
                             </div>

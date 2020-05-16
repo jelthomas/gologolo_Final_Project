@@ -71,17 +71,16 @@ class ViewLogoScreen extends Component {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
 
-                    console.log(data.logo.logos[0].texts.length);
                     return (
+                    <div>
+                        <div className="container row">
+                            <nav id = "myNav">
+                                <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
+                            </nav>
+                        </div>
+                   
                         <div className="container">
                                 <div className="panel panel-default">
-                                    <nav className="shadow">
-                                        <div className="nav-wrapper">
-                                            <div className="panel-heading">
-                                                <div><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
-                                            </div>
-                                        </div>
-                                    </nav>
                                     <div className="row">
                                     <div className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem", display: "inline-table"}}>
                                             <div className="panel-title" style={{textAlign: "center", backgroundColor: "#546e7a", color: "white", marginTop: "0.5rem", marginBottom: "1rem", borderRadius: "5px"}}>
@@ -94,7 +93,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4" >Logo Name:</div>
                                                         <div className="col s8" style={{display: "inline-grid"}}>
-                                                        <pre style={{color:"white"}}>
+                                                        <pre id = "myPre">
                                                         {data.logo.logos[0].name}
                                                         </pre>
                                                         </div>
@@ -104,7 +103,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4" >Logo Height:</div>
                                                         <div className="col s8" style={{display: "inline-grid"}}>
-                                                        <pre style={{color:"white"}}>
+                                                        <pre id = "myPre">
                                                         {data.logo.logos[0].height}
                                                         </pre>
                                                         </div>
@@ -114,7 +113,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4" >Logo Width:</div>
                                                         <div className="col s8" style={{display: "inline-grid"}}>
-                                                        <pre style={{color:"white"}}>
+                                                        <pre id = "myPre">
                                                         {data.logo.logos[0].width}
                                                         </pre>
                                                         </div>
@@ -124,7 +123,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4" >Text:</div>
                                                         <div className="col s8" style={{display: "inline-grid"}}>
-                                                        <pre style={{color:"white"}}>
+                                                        <pre id = "myPre">
                                                         {/* {data.user.logos.texts.text} */}
                                                         </pre>
                                                         </div>
@@ -166,7 +165,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4">Border Radius:</div>
                                                         <div className="col s8">
-                                                        {data.logo.logos[0].borderRadius}
+                                                        <pre id = "myPre">{data.logo.logos[0].borderRadius}</pre>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -174,7 +173,7 @@ class ViewLogoScreen extends Component {
                                                     <div className="form-group">
                                                         <div className="col s4">Border Width:</div>
                                                         <div className="col s8">
-                                                        {data.logo.logos[0].borderWidth}
+                                                        <pre id = "myPre">{data.logo.logos[0].borderWidth}</pre>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -187,8 +186,8 @@ class ViewLogoScreen extends Component {
                                                         e.preventDefault();
                                                         removeLogo({ variables: { id: data.logo.logos[0]._id } });
                                                     }}>
-                                                    <Link to={`/edit/${data.logo.logos[0]._id}`} className="btn btn-success">Edit</Link>&nbsp;
-                                                <button type="submit" className="btn btn-danger">Delete</button>
+                                                    <Link to={`/edit/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
+                                                <button type="submit" className="btn btn-danger" style={{backgroundColor: "red", fontFamily: "Lexend Exa"}}>Delete</button>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}
@@ -214,6 +213,7 @@ class ViewLogoScreen extends Component {
                             </div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                     );
                 }}

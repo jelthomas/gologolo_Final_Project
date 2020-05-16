@@ -32,7 +32,7 @@ class ViewAccountScreen extends Component {
                     return (
                         <div>
                             <div className="container row">
-                                <nav>
+                                <nav id="myNav">
                                     <div>
                                         <Link style={{color:"white", display: "inline-block", float: "left"}} to="/">Home</Link>
                                     </div>

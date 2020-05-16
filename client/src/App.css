@@ -97,7 +97,7 @@ h3{
   display: inline-flex;
 }
 
-nav {
+#myNav {
   color: #fff;
   background-color: #008026;
   width: 100%;
@@ -140,4 +140,42 @@ nav .nav-wrapper {
 
 .form-group{
   width: -moz-available;
+  color: white;
+}
+
+input{
+  color: white;
+}
+
+#myPre{
+  color: white;
+  font-family: "Lexend Exa";
+}
+
+
+
+.profile-pic {
+	position: relative;
+  display: inline-block;
+  margin: 4px;
+}
+
+.profile-pic:hover .edit {
+	display: block;
+}
+
+.edit {
+	padding-top: 7px;	
+	padding-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: none;
+}
+
+.edit button {
+  color: #000;
+  font-size: small;
+  background-color: transparent;
+  border-width: 0px;
 }
