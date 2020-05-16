@@ -48,97 +48,51 @@ class CreateLogoScreen extends Component {
             borderColor: "#FFFFFF",
             borderRadius: 0,
             borderWidth: 0,
-            textsArray: []
+            textsArray: [],
+            modalOpen: false
         }
-    }
-
-    handleInput = (event) => {
-        console.log(this.state.tempText);
-        this.setState({tempText: event.target.value, backgroundColor: this.state.backgroundColor, color: this.state.color, 
-            fontSize: this.state.fontSize, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-            padding: this.state.padding, margin: this.state.margin, text: this.state.text, borderColor: this.state.borderColor});
     }
 
     handleNameChange = (event) =>{
         console.log(this.state.name);
-        this.setState({name: event.target.value, width: this.state.width, height: this.state.height});
+        this.setState({name: event.target.value, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
     }
 
-    // handleTextColorChange = (event) => {
-    //     console.log("handleTextColorChange to " + event.target.value);
-    //     this.setState({ color: event.target.value, fontSize: this.state.fontSize, backgroundColor: this.state.backgroundColor,
-    //                     borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-    //                     padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    // }
-
-    handleFontSizeChange = (event) => {
-        console.log("handleFontSizeChangeComplete to " + event.target.value);
-        this.setState({ fontSize: event.target.value, color: this.state.color, backgroundColor: this.state.backgroundColor,
-                        borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-                        padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    }
-
-    // handleBorderRadiusChange = (event) => {
-    //     console.log("handleBorderRadiusChange to " + event.target.value);
-    //     this.setState({ borderRadius: event.target.value, fontSize: this.state.fontSize, color: this.state.color, 
-    //                     backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor, borderWidth: this.state.borderWidth,
-    //                     padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    // }
-    
     handleBorderRadiusChange = (event) => {
         console.log("handleBorderRadiusChange to " + event.target.value);
         this.setState({borderRadius: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor});
+            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray});
     }
 
-    // handleBorderWidthChange = (event) => {
-    //     console.log("handleBorderWidthChange to " + event.target.value);
-    //     this.setState({ borderWidth: event.target.value, borderRadius: this.state.borderRadius, fontSize: this.state.fontSize, color: this.state.color, 
-    //                     backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
-    //                     padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    // }
-    
     handleBorderWidthChange = (event) => {
         console.log("handleBorderWidthChange to " + event.target.value);
         this.setState({borderWidth: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor});
+            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray});
     }
-
-    // handleBackgroundColorChange = (event) => {
-    //     console.log("handleBackGroundColorChangeComplete to " + event.target.value);
-    //     this.setState({ backgroundColor: event.target.value, color: this.state.color, fontSize: this.state.fontSize, 
-    //                     borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-    //                     padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    // }
 
     handleBackgroundColorChange = (event) => {
         console.log("handleBackGroundColorChangeComplete to " + event.target.value);
         this.setState({backgroundColor: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
     }
 
-    // handleBorderColorChange = (event) => {
-    //     console.log("handleBorderColorChangeComplete to " + event.target.value);
-    //     this.setState({ borderColor: event.target.value, backgroundColor: this.state.backgroundColor, color: this.state.color, 
-    //                 fontSize: this.state.fontSize, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth,
-    //                 padding: this.state.padding, margin: this.state.margin, text: this.state.text});
-    // }
     handleBorderColorChange = (event) => {
         console.log("handleBorderColorChangeComplete to " + event.target.value);
         this.setState({borderColor: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
     }
 
     handleHeightChange = (event) => {
-        console.log("handleBorderColorChangeComplete to " + event.target.value);
+        console.log("handleLogoHeightChange to " + event.target.value);
         this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth});
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
     }
 
     handleWidthChange = (event) => {
-        console.log("handleBorderColorChangeComplete to " + event.target.value);
+        console.log("handleLogoWidthChange to " + event.target.value);
         this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
     }
 
     checkNull = () => {
@@ -159,43 +113,25 @@ class CreateLogoScreen extends Component {
         return true;
     }
 
-    // handleTextChange = (event, len) =>{
-    //     console.log("Changed text number to: " + event.target.value);
-    //     var copy = Object.assign({}, this.state.stylesDict);
-    //     copy[len].text = event.target.value; 
-    //     this.setState({stylesDict: copy, textsArray: this.texts});
-    //     console.log(this.state.stylesDict[len].text);
-    // }
-    handleTextChange = (e, len) => {
-        // Deriving the filter that a checkbox is associated too, and getting its value on change  
-        const style_prop = e.target.name;
-        const val = e.target.value;
-        var texts = this.texts;
-        var copy = {text: val, color: "black", backgroundColor: "", borderColor: "black", fontSize: "10pt", borderRadius: "0px", borderWidth: "0px", borderStyle: "solid"};
-        this.setState(state => (state.stylesDict = copy, state));
-        console.log("New State: " + this.state.stylesDict);
-        console.log("Length of texts array: " + texts.length);
-        console.log("Texts array: " + texts);
-        
-        // texts.props.style.text = this.state.stylesDict[len].text;
-      };
-
-    handleTextColorChange = (event, len) =>{
-        console.log("Changed text color to: " + event.target.value);
-        this.text_styles[len].color = event.target.value;
-        this.setState({stylesDict: this.text_styles});
-        console.log(this.state.stylesDict[len].text);
-    }
-
     addText = () => {
         var text = new TextObject();
         var newTexts = this.state.textsArray.concat(text);
         this.setState({textsArray: newTexts}); //Add new default text object to array
     }
 
-    editText = (index, state) =>{
-        var changeText = {}
+    handleClick = (index) =>{
+        console.log("Clicked text " + index);
+        document.getElementById("formTextInput").placeholder = this.state.textsArray[index].getText();
+        document.getElementById("formColorInput").placeholder = this.state.textsArray[index].getColor();
+        document.getElementById("formFontSizeInput").placeholder = this.state.textsArray[index].getFontSize();
+        document.getElementById("formTextInput").value = this.state.textsArray[index].getText();
+        document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
+        document.getElementById("formFontSizeInput").value = this.state.textsArray[index].getFontSize();
+        document.getElementById("formTextInput").onchange = "this.handleTextChange(" + index + ")";
+        document.getElementById("asd").style.display = "block";
     }
+
+
 
     render() {
         let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius;
@@ -224,34 +160,48 @@ class CreateLogoScreen extends Component {
                     <div className="container row">
                             <nav id = "myNav">
                                 <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
-                                
-                                {/* <Modal
-                                    actions={[<Button className="modalButton" modal="close" node="button" waves="green" onClick={this.reset}>Close</Button>, <Button modal = "close" node="button" waves="green" onClick={this.handleTextChange}>Enter</Button>]}
-                                    header="Please enter the text for your logo:"
-                                    id="modal-0"
-                                    options={{
-                                        dismissible: true,
-                                        endingTop: '30%',
-                                        inDuration: 250,
-                                        onCloseEnd: null,
-                                        onCloseStart: null,
-                                        onOpenEnd: null,
-                                        onOpenStart: null,
-                                        opacity: 0.5,
-                                        outDuration: 250,
-                                        preventScrolling: true,
-                                        startingTop: '10%'
-                                    }}
-                                    trigger={<Button node="button" className="waves-effect waves-light btn-small">&#9998;</Button>}>
-                                    <TextInput placeholder = "" value = "" onChange = {this.handleInput}
-                                    />
-                            </Modal> */}
-
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick={this.addText}>Add New Text</button>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick = {this.addImage}>Add New Image</button>
                             </nav>
-                        </div>
+                    </div>
                     <div className="container">
+                    <div style = {{position: "absolute", marginLeft: "68%"}}>
+                        <form id="asd" action="" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}}>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Text:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formTextInput" type="text" style = {{color: "black"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder="" value = "" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Text Color:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formColorInput" type="color" style = {{width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Font Size:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formFontSizeInput" type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
                         <div className="panel panel-default">
                             <div className="row">
                             <div className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
@@ -382,15 +332,18 @@ class CreateLogoScreen extends Component {
                                 {error && <p>Error :( Please try again</p>}
                             </div>
                             <div className="col s8" style={{width:"66.66666%", height: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
-                                <div>
-                                    <pre className="logo" style={ styles.container }>
-                                            {this.state.textsArray.map((single_text, index) => (
-                                                <div id={index} onClick = {this.handleClick}>
+                                <pre className="logo" style={ styles.container }>
+                                    {this.state.textsArray.map((single_text, index) => (
+                                            <div className="profile-pic">
+                                                <div id={index}>
                                                     {single_text.getText()}
                                                 </div>
-                                            ))}
-                                    </pre>
-                                </div>
+                                                <div className="edit">
+                                                    <a href="#"><i onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i></a>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </pre>
                             </div>
                             </div>
                         </div>
