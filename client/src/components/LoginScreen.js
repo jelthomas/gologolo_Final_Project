@@ -1,22 +1,58 @@
-const Validator = require("validator");
-const isEmpty = require("is-empty");
-module.exports = function validateLoginInput(data) {
-  let errors = {};
-// Convert empty fields to an empty string so we can use validator functions
-  data.email = !isEmpty(data.email) ? data.email : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
-// Email checks
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
-  } else if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import '../App.css';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import AuthService from '../Services/AuthService';
+import { AuthContext } from '../Context/AuthContext';
+
+class LoginScreen extends Component {
+  constructor() {
+    super();
+
+    // WE'LL MANAGE THE UI CONTROL
+    // VALUES HERE
+    this.state = {
+        username: '',
+        password: ''
+    }
   }
-// Password checks
-  if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+
+
+  loginHandler = () =>{
+      var user = { "username" : this.state.username,
+                    "password" : this.state.password }
+      AuthService.login(user).then(data=>{
+        console.log(data);
+      });
   }
-return {
-    errors,
-    isValid: isEmpty(errors)
-  };
-};
+
+  usernameChange = (e) =>{
+    console.log("Changing username to: " + e);
+    this.setState({username: e});
+  }
+
+  passwordChange = (e) =>{
+    console.log("Changing username to: " + e);
+    this.setState({password: e});
+  }
+
+
+
+  render() {
+      return (
+        <div>
+            <form onSubmit = {this.loginHandler}>
+              <h3> Sign In Here</h3>
+              <div>Username: </div>
+              <input type = "text" onChange = {e=> this.usernameChange(e.target.value)} placeholder = "Enter Username" value = {this.state.username}/>
+              <div>Password: </div>
+              <input type = "text" onChange = {e=> this.passwordChange(e.target.value)} placeholder = "Enter Password" value = {this.state.password}/>
+              <button type = "submit">Login</button>
+            </form>
+        </div>
+      )
+  }
+}
+
+export default LoginScreen;

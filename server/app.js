@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 var graphqlHTTP = require('express-graphql');
 var schema = require('./graphql/userSchemas');
 var cors = require("cors");
+var JWT = require('jsonwebtoken');
+var passportConfig = require('../passport');
 
 mongoose.connect('mongodb://localhost/node-graphql', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() =>  console.log('connection successful'))
@@ -51,5 +53,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

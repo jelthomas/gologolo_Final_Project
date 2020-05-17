@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import AuthService from '../Services/AuthService';
+import { AuthContext } from '../Context/AuthContext';
 
 const GET_USERS = gql`
 {
@@ -18,6 +20,10 @@ const GET_USERS = gql`
 `;
 
 class HomeScreen extends Component {
+
+    logoutHandler = () =>{
+        AuthService.logout();
+    }
 
     render() {
         return (
@@ -37,8 +43,8 @@ class HomeScreen extends Component {
                                 <div style={{ display: "inline-block", float: "left"}}>
                                     Logo Maker
                                 </div>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", paddingTop: "15px", paddingBottom: "15px" }}>
-                                    <Link id="homeScreen_buttons" to="/create">Logout</Link>
+                                <button className="createNew" onClick = {this.logoutHandler} style={{ cursor: "pointer", display: "inline-block", float: "right", paddingTop: "15px", paddingBottom: "15px" }}>
+                                    Logout
                                 </button>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingTop: "15px", paddingBottom: "15px" }}>
                                     <Link id="homeScreen_buttons" to={`/account/${data.user._id}`}>View Account</Link>

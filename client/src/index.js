@@ -13,6 +13,7 @@ import EditLogoScreen from './components/EditLogoScreen';
 import CreateLogoScreen from './components/CreateLogoScreen';
 import ViewLogoScreen from './components/ViewLogoScreen';
 import ViewAccountScreen from './components/ViewAccountScreen';
+// import LoginScreen from './components/LoginScreen';
 
 const client = new ApolloClient({ uri: 'http://localhost:3000/graphql' });
 
@@ -27,7 +28,7 @@ ReactDOM.render(
                 <Route path='/account/:id' component={ViewAccountScreen} />
             </div>
         </Router>
-    </ApolloProvider>, 
+    </ApolloProvider>,
     document.getElementById('root')
 );
 
