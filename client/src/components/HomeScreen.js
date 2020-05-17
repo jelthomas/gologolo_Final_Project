@@ -44,7 +44,7 @@ class HomeScreen extends Component {
                                     <Link id="homeScreen_buttons" to={`/account/${data.user._id}`}>View Account</Link>
                                 </button>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingTop: "15px", paddingBottom: "15px" }}>
-                                    <Link id="homeScreen_buttons" to="/create">Create a New Logo</Link>
+                                    <Link id="homeScreen_buttons" to={`/create/${data.user._id}`}>Create a New Logo</Link>
                                 </button>
                             </nav>
                             <div className="col s4">

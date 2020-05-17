@@ -22,7 +22,7 @@ ReactDOM.render(
             <div>
                 <Route exact path='/' component={HomeScreen} />
                 <Route path='/edit/:id' component={EditLogoScreen} />
-                <Route path='/create' component={CreateLogoScreen} />
+                <Route path='/create/:id' component={CreateLogoScreen} />
                 <Route path='/view/:id' component={ViewLogoScreen} />
                 <Route path='/account/:id' component={ViewAccountScreen} />
             </div>

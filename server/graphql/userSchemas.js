@@ -97,19 +97,7 @@ var TextType = new GraphQLObjectType({
         color: {
             type: GraphQLString
         },
-        backgroundColor: {
-            type: GraphQLString
-        },
-        borderColor: {
-            type: GraphQLString
-        },
         fontSize: {
-            type: GraphQLInt
-        },
-        borderRadius: {
-            type: GraphQLInt
-        },
-        borderWidth: {
             type: GraphQLInt
         }
       }
@@ -334,12 +322,18 @@ var mutation = new GraphQLObjectType({
                         name:'id',
                         type: GraphQLString
                     },
+                    username: {
+                        type: GraphQLString
+                    },
                     email: {
+                        type: GraphQLString
+                    },
+                    password: {
                         type: GraphQLString
                     }
                 },
                 resolve: function (root, params) {
-                    return userModel.findByIdAndUpdate(params.id, { email: params.email}, function (err) {
+                    return userModel.findByIdAndUpdate(params.id, { usernname: params.username, email: params.email, password: params.password}, function (err) {
                         if (err) return next(err);
                     });
                 }
@@ -348,7 +342,6 @@ var mutation = new GraphQLObjectType({
                 type: UserType,
                 args: {
                     id: {
-                        name: '_id',
                         type: GraphQLString
                     },
                     name: {
@@ -378,10 +371,18 @@ var mutation = new GraphQLObjectType({
                     borderWidth: {
                         name: 'borderRadius',
                         type: GraphQLInt
+                    },
+                    texts: {
+                        name: "texts",
+                        type: GraphQLList(TextInput)
+                    },
+                    images: {
+                        name: "images",
+                        type: GraphQLList(ImageInput)
                     }
                 },
                 resolve: function (root, params) {
-                    const logo = userModel.findOneAndUpdate({ '_id': params.id}, { $push: { logos: {height: params.height, width: params.width, name: params.name, backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderWidth: params.borderWidth}}});
+                    const logo = userModel.findOneAndUpdate({ '_id': params.id}, { $push: { logos: {height: params.height, width: params.width, name: params.name, backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderWidth: params.borderWidth, texts: params.texts, images: params.images}}});
                     if (!logo) {
                         throw new Error('Error')
                     }
@@ -407,24 +408,8 @@ var mutation = new GraphQLObjectType({
                         name: 'color',
                         type: GraphQLString
                     },
-                    backgroundColor: {
-                        name: 'backgroundColor',
-                        type: GraphQLString
-                    },
-                    borderColor: {
-                        name: 'borderColor',
-                        type: GraphQLString
-                    },
                     fontSize: {
                         name: 'fontSize',
-                        type: GraphQLInt
-                    },
-                    borderRadius: {
-                        name: 'borderRadius',
-                        type: GraphQLInt
-                    },
-                    borderWidth: {
-                        name: 'borderWidth',
                         type: GraphQLInt
                     }
                 },

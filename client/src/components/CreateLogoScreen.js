@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import {Query, Mutation } from "react-apollo";
 import { Link } from 'react-router-dom';
 import { Modal, Button} from 'react-materialize';
 import TextInput from 'react-materialize/lib/TextInput';
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import TextObject from "./TextObject";
+import ImageObject from "./ImageObject";
 
 
 const ADD_LOGO = gql`
@@ -18,7 +19,9 @@ const ADD_LOGO = gql`
         $backgroundColor: String!,
         $borderColor: String!,
         $borderRadius: Int!,
-        $borderWidth: Int!) {
+        $borderWidth: Int!,
+        $texts: [textInput]!,
+        $images: [imageInput]!) {
         addLogo(
             id: $id,
             name: $name,
@@ -27,12 +30,15 @@ const ADD_LOGO = gql`
             backgroundColor: $backgroundColor,
             borderColor: $borderColor,
             borderRadius: $borderRadius,
-            borderWidth: $borderWidth
+            borderWidth: $borderWidth,
+            texts: $texts,
+            $images: $images
             ) {
             _id
         }
     }
 `;
+
 
 class CreateLogoScreen extends Component {
     constructor() {
@@ -49,6 +55,7 @@ class CreateLogoScreen extends Component {
             borderRadius: 0,
             borderWidth: 0,
             textsArray: [],
+            imagesArray: [],
             currentIndex: 0
         }
     }
@@ -57,38 +64,38 @@ class CreateLogoScreen extends Component {
     handleNameChange = (event) =>{
         console.log(this.state.name);
         this.setState({name: event.target.value, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
-            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
     }
 
     handleBorderRadiusChange = (event) => {
         console.log("handleBorderRadiusChange to " + event.target.value);
         this.setState({borderRadius: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray});
+            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
     }
 
     handleBorderWidthChange = (event) => {
         console.log("handleBorderWidthChange to " + event.target.value);
         this.setState({borderWidth: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
     }
 
     handleBackgroundColorChange = (event) => {
         console.log("handleBackGroundColorChangeComplete to " + event.target.value);
         this.setState({backgroundColor: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
     }
 
     handleBorderColorChange = (event) => {
         console.log("handleBorderColorChangeComplete to " + event.target.value);
         this.setState({borderColor: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
     }
 
     handleHeightChange = (event) => {
         if(event.target.value <= 650){
             console.log("handleLogoHeightChange to " + event.target.value);
             this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-                borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+                borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
         }
     }
 
@@ -96,7 +103,7 @@ class CreateLogoScreen extends Component {
         if(event.target.value <= 650){
             console.log("handleLogoWidthChange to " + event.target.value);
             this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
-                height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray});
+                height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
             }
     }
 
@@ -119,10 +126,93 @@ class CreateLogoScreen extends Component {
     }
 
     addText = () => {
+        this.closeImageForm();
         var text = new TextObject();
         var newTexts = this.state.textsArray.concat(text);
         this.setState({textsArray: newTexts}); //Add new default text object to array
     }
+
+    imageExists(url, callback){
+        var img = new Image();
+        img.onload = function() { callback(true); };
+        img.onerror = function() { callback(false); };
+        img.src = url;
+    }
+
+    addImage = () => {
+        var url = document.getElementById("formUrlInput").value;
+        var imageUrl = url;
+        this.imageExists(imageUrl, (exists) => {
+            console.log('RESULT: url=' + imageUrl + ', exists=' + exists);
+            var height = document.getElementById("formHeightInput").value;
+            var width = document.getElementById("formWidthInput").value;
+            var imageExists = exists;
+            if(!imageExists){
+                window.alert("Image does not exist!");
+                document.getElementById("formUrlInput").value = "";
+                return null;
+            }
+            if(isNaN(height) || height < 4 || height > 100){
+                window.alert("Height must be a number between 4 and 100");
+                document.getElementById("formHeightInput").value = "";
+                return null;
+            }
+            if(isNaN(width) || width < 4 || width > 100){
+                window.alert("Width must be a number between 4 and 100");
+                document.getElementById("formWidthInput").value = "";
+                return null;
+            }
+            var image = new ImageObject(url, height, width);
+            var newImages = this.state.imagesArray.concat(image);
+            this.setState({imagesArray: newImages}); //Add new image object to array
+            console.log(this.state.imagesArray);
+            this.closeImageForm();
+        });
+    }
+
+    editImage = () =>{
+        var url = document.getElementById("formUrlInput").value;
+
+        var imageUrl = url;
+        this.imageExists(imageUrl, (exists) => {
+            console.log('RESULT: url=' + imageUrl + ', exists=' + exists);
+            var height = document.getElementById("formHeightInput").value;
+            var width = document.getElementById("formWidthInput").value;
+            var imageExists = exists;
+            if(!imageExists){
+                window.alert("Image does not exist!");
+                document.getElementById("formUrlInput").value = "";
+                return null;
+            }
+            if(isNaN(height) || height < 4 || height > 100){
+                window.alert("Height must be a number between 4 and 100");
+                document.getElementById("formHeightInput").value = "";
+                return null;
+            }
+            if(isNaN(width) || width < 4 || width > 100){
+                window.alert("Width must be a number between 4 and 100");
+                document.getElementById("formWidthInput").value = "";
+                return null;
+            }
+            var updatedImages = this.state.imagesArray;
+            updatedImages[this.state.currentIndex].setURL(url);
+            updatedImages[this.state.currentIndex].setHeight(height);
+            updatedImages[this.state.currentIndex].setWidth(width);
+            this.setState({imagesArray: updatedImages}); //Edit image object and setState for images array
+            this.closeImageForm();
+        });
+    }
+
+
+    imageForm = () =>{
+        document.getElementById("formUrlInput").value = "";
+        document.getElementById("formHeightInput").value = "";
+        document.getElementById("formWidthInput").value = "";
+        document.getElementById("addImage").style.display = "block";
+        document.getElementById("deleteImage").style.display = "none";
+        document.getElementById("imageForm").style.display = "block";
+    }
+
 
     handleClick = (index) =>{
         document.getElementById("formTextInput").value = this.state.textsArray[index].text;
@@ -133,9 +223,33 @@ class CreateLogoScreen extends Component {
         this.setState({currentIndex: index});
     }
 
+    handleImageClick = (index) =>{
+        this.closeForm();
+        document.getElementById("addImage").style.display = "none";
+        document.getElementById("deleteImage").style.display = "block";
+        document.getElementById("imageForm").style.display = "block";
+        document.getElementById("formUrlInput").value = this.state.imagesArray[index].imageURL;
+        document.getElementById("formHeightInput").value = this.state.imagesArray[index].imageHeight;
+        document.getElementById("formWidthInput").value = this.state.imagesArray[index].imageWidth;
+        console.log("Opened");
+        this.setState({currentIndex: index});
+    }
+
+    deleteImage = () =>{
+        console.log("About to delete image #" + this.state.currentIndex);
+        var updated = this.state.imagesArray;
+        updated.splice(this.state.currentIndex,1);
+        this.closeImageForm();
+        this.setState({imagesArray: updated, currentIndex: 0});
+    }
+
     closeForm = () =>{
         console.log("Closed");
         document.getElementById("asd").style.display = "none";
+    }
+
+    closeImageForm = () =>{
+        document.getElementById("imageForm").style.display = "none";
     }
 
     handleTextChange = (val) =>{
@@ -198,7 +312,7 @@ class CreateLogoScreen extends Component {
                             <nav onClick = {this.closeForm} id = "myNav">
                                 <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
                                 <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick={this.addText}>Add New Text</button>
-                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick = {this.addImage}>Add New Image</button>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick = {this.imageForm}>Add New Image</button>
                             </nav>
                     </div>
                     <div className="container">
@@ -245,14 +359,74 @@ class CreateLogoScreen extends Component {
                                 </div>
                             </div>
                     </div>
+                    <div style = {{position: "absolute", marginLeft: "68%", zIndex: "1"}}>
+                        <div id="imageForm" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}} onSubmit = {e => this.addImage}>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <button onClick = {this.closeImageForm} style ={{position: "absolute", right: "5px", top: "5px", borderRadius: "7px", backgroundColor: "red"}}>x</button>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Url:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formUrlInput" type="text" style = {{color: "black"}} placeholder=""  onChange = "" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Image Height:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formHeightInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder="" onChange = ""/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row" style={{paddingTop: "20px"}}>
+                                    <div className="form-group">
+                                        <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
+                                            Image Width:
+                                        </div>
+                                        <div className="col s8">
+                                            <input id= "formWidthInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                name = node;}} placeholder="" onChange = ""/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id = "addImage" style={{paddingBottom: "5px", display: "none"}}>
+                                    <div className="form-group" style={{margin: "auto", textAlign: "center"}}>
+                                        <button  onClick = {this.addImage} style = {{borderRadius: "8px", backgroundColor: "limegreen", color: "black"}}>
+                                            Add Image
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id = "deleteImage" style={{paddingBottom: "5px", display: "none"}}>
+                                    <div className="form-group" style={{margin: "auto", textAlign: "center"}}>
+                                        <button onClick = {this.editImage} style = {{borderRadius: "8px", backgroundColor: "limegreen", color: "black"}}>
+                                            Submit Edit
+                                        </button>
+                                        <button onClick = {this.deleteImage} style = {{borderRadius: "8px", backgroundColor: "red", color: "black"}}>
+                                            Delete this Image
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                         <div className="panel panel-default">
                             <div className="row">
                             <div onClick = {this.closeForm} className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
                                 <form name="myForm" onSubmit={e => {
                                     e.preventDefault();
                                     if(this.checkNull()){
-                                    addLogo({ variables: { id: "5eb5cbc5be919ea129bddccd", name: name.value, height: parseInt(height.value), width: parseInt(width.value), backgroundColor: backgroundColor.value, 
-                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value) } });
+                                    var arr = this.state.textsArray;
+                                    for(let i = 0; i < arr.length; i++){
+                                        var newFont = parseInt(arr[i].fontSize,10);
+                                        console.log(newFont);
+                                        arr[i].fontSize = newFont;
+                                    }
+                                    addLogo({ variables: { id: this.props.match.params.id, name: name.value, height: parseInt(height.value), width: parseInt(width.value), backgroundColor: backgroundColor.value, 
+                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), texts: arr} });
                                     name.value = "";
                                     height.value = "";
                                     width.value = "";
@@ -260,8 +434,8 @@ class CreateLogoScreen extends Component {
                                     borderColor.value = "";    
                                     borderRadius.value = "";
                                     borderWidth.value = "";
-                                    }
-                                }}>
+                                    
+                                }}}>
                                     <div className="panel-title" style={{textAlign: "center", backgroundColor: "#546e7a", color: "white", marginTop: "0.5rem", marginBottom: "1rem", borderRadius: "5px"}}>
                                         <div style={{paddingTop: "0.5rem", paddingBottom: "0.5rem", fontSize: "30pt"}}>
                                             Create Logo
@@ -354,6 +528,12 @@ class CreateLogoScreen extends Component {
                                                 <div className="edit">
                                                     <i style ={{fontSize: "0.9em", verticalAlign: "100%"}} onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i>
                                                 </div>
+                                            </div>
+                                        ))}
+                                        {this.state.imagesArray.map((single_image, index) => (
+                                            <div className="profile-pic">
+                                                <img id={index} onClick = {() => this.handleImageClick(index)} src = {single_image.getURL()} alt = "error" height = {single_image.getHeight()} width = {single_image.getWidth()}>
+                                                </img>
                                             </div>
                                         ))}
                                 </pre>
