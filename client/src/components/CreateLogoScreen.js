@@ -32,7 +32,7 @@ const ADD_LOGO = gql`
             borderRadius: $borderRadius,
             borderWidth: $borderWidth,
             texts: $texts,
-            $images: $images
+            images: $images
             ) {
             _id
         }
@@ -319,6 +319,7 @@ class CreateLogoScreen extends Component {
                     <div style = {{position: "absolute", marginLeft: "68%", zIndex: "1"}}>
                         <div id="asd" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}}>
                                 <div className="row" style={{paddingTop: "20px"}}>
+                                <button onClick = {this.closeForm} style ={{position: "absolute", right: "5px", top: "5px", borderRadius: "7px", backgroundColor: "red"}}>x</button>
                                     <div className="form-group">
                                         <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
                                             Text:
@@ -415,18 +416,24 @@ class CreateLogoScreen extends Component {
                     </div>
                         <div className="panel panel-default">
                             <div className="row">
-                            <div onClick = {this.closeForm} className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
+                            <div onClick = {this.closeForm, this.closeImageForm} className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", display: "inline-table", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem"}}>
                                 <form name="myForm" onSubmit={e => {
                                     e.preventDefault();
                                     if(this.checkNull()){
                                     var arr = this.state.textsArray;
                                     for(let i = 0; i < arr.length; i++){
                                         var newFont = parseInt(arr[i].fontSize,10);
-                                        console.log(newFont);
                                         arr[i].fontSize = newFont;
                                     }
+                                    var arr2 = this.state.imagesArray;
+                                    for(let i = 0; i < arr2.length; i++){
+                                        var newHeight = parseInt(arr2[i].imageHeight,10);
+                                        arr2[i].imageHeight = newHeight;
+                                        var newWidth = parseInt(arr2[i].imageWidth,10);
+                                        arr2[i].imageWidth = newWidth;
+                                    }
                                     addLogo({ variables: { id: this.props.match.params.id, name: name.value, height: parseInt(height.value), width: parseInt(width.value), backgroundColor: backgroundColor.value, 
-                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), texts: arr} });
+                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), texts: arr, images: arr2} });
                                     name.value = "";
                                     height.value = "";
                                     width.value = "";
