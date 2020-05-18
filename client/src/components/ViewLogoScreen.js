@@ -17,6 +17,8 @@ query logo($id: String!, $logoId: String!){
             borderColor
             borderWidth
             borderRadius
+            margin
+            padding
     	    texts{
                 _id
                 text
@@ -144,6 +146,22 @@ class ViewLogoScreen extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="form-group">
+                                                        <div className="col s4">Margin:</div>
+                                                        <div className="col s8">
+                                                        <pre id = "myPre">{data.logo.logos[0].margin}</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4">Padding:</div>
+                                                        <div className="col s8">
+                                                        <pre id = "myPre">{data.logo.logos[0].padding}</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
                                                         <div className="col s4" >Text:</div>
                                                         <div className="col s8" style={{display: "inline-grid"}}>
                                                         <pre id = "textText" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on text to view</pre>
@@ -222,7 +240,9 @@ class ViewLogoScreen extends Component {
                                         overflowX: "hidden", 
                                         overflowY: "hidden",
                                         flexWrap: "wrap",
-                                        display: "flex"}}>
+                                        display: "flex",
+                                        padding: data.logo.logos[0].padding,
+                                        margin: data.logo.logos[0].margin}}>
                                      {data.logo.logos[0].texts.map((single_text, index) => (
                                             <div className="profile-pic">
                                                 <div id={index} onClick = {() => this.textPopulate(single_text.text, single_text.color, single_text.fontSize)} style = {{color: single_text.color, fontSize: single_text.fontSize + "pt" }}>

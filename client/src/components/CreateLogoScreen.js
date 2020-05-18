@@ -20,6 +20,8 @@ const ADD_LOGO = gql`
         $borderColor: String!,
         $borderRadius: Int!,
         $borderWidth: Int!,
+        $margin: Int!,
+        $padding: Int!,
         $texts: [textInput]!,
         $images: [imageInput]!) {
         addLogo(
@@ -31,6 +33,8 @@ const ADD_LOGO = gql`
             borderColor: $borderColor,
             borderRadius: $borderRadius,
             borderWidth: $borderWidth,
+            margin: $margin,
+            padding: $padding,
             texts: $texts,
             images: $images
             ) {
@@ -54,6 +58,8 @@ class CreateLogoScreen extends Component {
             borderColor: "#FFFFFF",
             borderRadius: 0,
             borderWidth: 0,
+            margin: 0,
+            padding: 0,
             textsArray: [],
             imagesArray: [],
             currentIndex: 0
@@ -62,40 +68,49 @@ class CreateLogoScreen extends Component {
 
 
     handleNameChange = (event) =>{
-        console.log(this.state.name);
         this.setState({name: event.target.value, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
-            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
+    }
+
+    handleMarginChange = (event) =>{
+        this.setState({margin: event.target.value, name: this.state.name, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, padding: this.state.padding});
+    }
+
+    handlePaddingChange = (event) =>{
+        this.setState({padding: event.target.value, name: this.state.name, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
+            borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin});
     }
 
     handleBorderRadiusChange = (event) => {
         console.log("handleBorderRadiusChange to " + event.target.value);
         this.setState({borderRadius: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
     }
 
     handleBorderWidthChange = (event) => {
         console.log("handleBorderWidthChange to " + event.target.value);
         this.setState({borderWidth: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
     }
 
     handleBackgroundColorChange = (event) => {
         console.log("handleBackGroundColorChangeComplete to " + event.target.value);
         this.setState({backgroundColor: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
     }
 
     handleBorderColorChange = (event) => {
         console.log("handleBorderColorChangeComplete to " + event.target.value);
         this.setState({borderColor: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+            height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
     }
 
     handleHeightChange = (event) => {
         if(event.target.value <= 650){
             console.log("handleLogoHeightChange to " + event.target.value);
             this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
-                borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+                borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
         }
     }
 
@@ -103,13 +118,12 @@ class CreateLogoScreen extends Component {
         if(event.target.value <= 650){
             console.log("handleLogoWidthChange to " + event.target.value);
             this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
-                height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray});
+                height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
             }
     }
 
     checkNull = () => {
-       // var names = ['text', 'fontSize', 'borderRadius', 'borderWidth', 'padding', 'margin']
-        var names = ['borderRadius', 'borderWidth', 'logoWidth', 'logoHeight']
+        var names = ['borderRadius', 'borderWidth', 'logoWidth', 'logoHeight', 'margin', 'padding']
         var logoName = document.forms["myForm"]['logoName'].value;
         for(let i = 0; i < names.length; i++){
             var x = document.forms["myForm"][names[i]].value;
@@ -285,7 +299,7 @@ class CreateLogoScreen extends Component {
     }
 
     render() {
-        let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius;
+        let name, width, height, backgroundColor, borderWidth, borderColor, borderRadius, margin, padding;
 
         const styles = {
             container: {
@@ -300,7 +314,9 @@ class CreateLogoScreen extends Component {
                 overflowX: "hidden", 
                 overflowY: "hidden",
                 flexWrap: "wrap",
-                display: "flex"
+                display: "flex",
+                padding: this.state.padding + "px",
+                margin: this.state.margin + "px"
             }
         }
 
@@ -433,7 +449,7 @@ class CreateLogoScreen extends Component {
                                         arr2[i].imageWidth = newWidth;
                                     }
                                     addLogo({ variables: { id: this.props.match.params.id, name: name.value, height: parseInt(height.value), width: parseInt(width.value), backgroundColor: backgroundColor.value, 
-                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), texts: arr, images: arr2} });
+                                        borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), margin: parseInt(margin.value), padding: parseInt(padding.value), texts: arr, images: arr2} });
                                     name.value = "";
                                     height.value = "";
                                     width.value = "";
@@ -441,7 +457,8 @@ class CreateLogoScreen extends Component {
                                     borderColor.value = "";    
                                     borderRadius.value = "";
                                     borderWidth.value = "";
-                                    
+                                    margin.value = "";
+                                    padding.value = "";
                                 }}}>
                                     <div className="panel-title" style={{textAlign: "center", backgroundColor: "#546e7a", color: "white", marginTop: "0.5rem", marginBottom: "1rem", borderRadius: "5px"}}>
                                         <div style={{paddingTop: "0.5rem", paddingBottom: "0.5rem", fontSize: "30pt"}}>
@@ -513,9 +530,29 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4">Border Width:</div>
                                                 <div className="col s8">
-                                                    <input type="number" style = {{color: "white"}} name="borderWidth" min="0" max="200" className="form-control" name="borderWidth" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} name="borderWidth" min="0" max="200" className="form-control" ref={node => {
                                                         borderWidth = node;
                                                     }} placeholder={this.state.borderWidth} onChange={this.handleBorderWidthChange} value={this.state.borderWidth} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="form-group">
+                                                <div className="col s4">Margin:</div>
+                                                <div className="col s8">
+                                                    <input type="number" style = {{color: "white"}} name="margin" min="0" max="200" className="form-control" ref={node => {
+                                                        margin = node;
+                                                    }} placeholder={this.state.margin} onChange={this.handleMarginChange} value={this.state.margin} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="form-group">
+                                                <div className="col s4">Padding:</div>
+                                                <div className="col s8">
+                                                    <input type="number" style = {{color: "white"}} name="padding" min="0" max="200" className="form-control" ref={node => {
+                                                        padding = node;
+                                                    }} placeholder={this.state.padding} onChange={this.handlePaddingChange} value={this.state.padding} />
                                                 </div>
                                             </div>
                                         </div>

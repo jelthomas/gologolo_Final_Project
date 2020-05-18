@@ -132,6 +132,12 @@ var LogoType = new GraphQLObjectType({
         borderWidth: {
             type: GraphQLInt
         },
+        margin: {
+            type: GraphQLInt
+        },
+        padding: {
+            type: GraphQLInt
+        },
         texts: {
             type: GraphQLList(TextType)
         },
@@ -169,6 +175,12 @@ var LogoType = new GraphQLObjectType({
             type: GraphQLInt
         },
         borderWidth: {
+            type: GraphQLInt
+        },
+        margin: {
+            type: GraphQLInt
+        },
+        padding: {
             type: GraphQLInt
         },
         texts: {
@@ -372,6 +384,14 @@ var mutation = new GraphQLObjectType({
                         name: 'borderRadius',
                         type: GraphQLInt
                     },
+                    margin: {
+                        name: 'margin',
+                        type: GraphQLInt
+                    },
+                    padding: {
+                        name: 'padding',
+                        type: GraphQLInt
+                    },
                     texts: {
                         name: "texts",
                         type: GraphQLList(TextInput)
@@ -382,7 +402,7 @@ var mutation = new GraphQLObjectType({
                     }
                 },
                 resolve: function (root, params) {
-                    const logo = userModel.findOneAndUpdate({ '_id': params.id}, { $push: { logos: {height: params.height, width: params.width, name: params.name, backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderWidth: params.borderWidth, texts: params.texts, images: params.images}}});
+                    const logo = userModel.findOneAndUpdate({ '_id': params.id}, { $push: { logos: {height: params.height, width: params.width, name: params.name, backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderWidth: params.borderWidth, margin: params.margin, padding: params.padding, texts: params.texts, images: params.images}}});
                     if (!logo) {
                         throw new Error('Error')
                     }
