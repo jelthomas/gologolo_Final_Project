@@ -10,6 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "materialize-css": "^1.0.0",
     "mongoose": "^5.3.11",
+    "morgan": "^1.10.0",
     "node-modules": "^1.0.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -27,5 +29,6 @@
     "prop-types": "^15.7.2",
     "react-materialize": "^3.5.9",
     "validator": "^10.9.0"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

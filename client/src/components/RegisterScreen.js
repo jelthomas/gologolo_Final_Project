@@ -1,38 +1,67 @@
-const Validator = require("validator");
-const isEmpty = require("is-empty");
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import '../App.css';
+import axios from 'axios';
 
-module.exports = function validateRegisterInput(data) {
-  let errors = {};
-// Convert empty fields to an empty string so we can use validator functions
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.email = !isEmpty(data.email) ? data.email : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
-  data.password2 = !isEmpty(data.password2) ? data.password2 : "";
-// Name checks
-  if (Validator.isEmpty(data.name)) {
-    errors.name = "Name field is required";
+class RegisterScreen extends Component {
+  constructor() {
+    super();
+
+    // WE'LL MANAGE THE UI CONTROL
+    // VALUES HERE
+    this.state = {
+        username: '',
+        password: ''
+    }
   }
-// Email checks
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
-  } else if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+
+
+  registerHandler = (e) =>{
+      e.preventDefault();
+      axios.post('/', {
+        username: this.state.username,
+        password: this.state.password
+      }).then(response =>{
+        console.log(response);
+        if(response.data){
+          console.log("Registered successfully");
+          this.setState({redirectTo: '/login'});
+        }
+        else{
+          console.log("Error");
+        }
+      }).catch(error =>{
+        console.log("Sign-up error server side: " + error);
+      });
+
   }
-// Password checks
-  if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+
+  usernameChange = (e) =>{
+    console.log("Changing username to: " + e);
+    this.setState({username: e});
   }
-if (Validator.isEmpty(data.password2)) {
-    errors.password2 = "Confirm password field is required";
+
+  passwordChange = (e) =>{
+    console.log("Changing username to: " + e);
+    this.setState({password: e});
   }
-if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
-    errors.password = "Password must be at least 6 characters";
+
+
+
+  render() {
+      return (
+        <div>
+            <form onSubmit = {e => this.registerHandler(e)}>
+              <h3> Register Here</h3>
+              <div>Username: </div>
+              <input type = "text" onChange = {e=> this.usernameChange(e.target.value)} placeholder = "Enter Username" value = {this.state.username}/>
+              <div>Password: </div>
+              <input type = "text" onChange = {e=> this.passwordChange(e.target.value)} placeholder = "Enter Password" value = {this.state.password}/>
+              <button type = "submit">Login</button>
+            </form>
+        </div>
+      )
   }
-if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = "Passwords must match";
-  }
-return {
-    errors,
-    isValid: isEmpty(errors)
-  };
-};
+}
+
+export default RegisterScreen;

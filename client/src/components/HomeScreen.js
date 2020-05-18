@@ -59,7 +59,7 @@ class HomeScreen extends Component {
                                 {data.user.logos.map((logo, index) => (
                                     <div key={index} className='home_logo_link'
                                         style={{ cursor: "pointer", paddingBottom: "5px" }}>
-                                        <Link to={`/view/${logo._id}`}>{logo.name}</Link>
+                                        <Link to={`/view/${data.user._id}/${logo._id}`}>{logo.name}</Link>
                                     </div>
                                 ))}
                                 </div>

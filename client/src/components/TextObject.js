@@ -5,7 +5,7 @@ import '../App.css';
 class TextObject{
     constructor(text, color, fontSize){
         if(text === undefined){
-            this.text = "Hover to edit";
+            this.text = "Click me to edit";
         }
         else{
             this.text = text;
@@ -29,7 +29,7 @@ class TextObject{
     }
 
     setText(text){
-        this.text = text + "pt";
+        this.text = text;
     }
 
     getColor(){

@@ -529,11 +529,8 @@ class CreateLogoScreen extends Component {
                                 <pre  className="logo" style={ styles.container }>
                                     {this.state.textsArray.map((single_text, index) => (
                                             <div className="profile-pic">
-                                                <div id={index} style = {{color: this.state.textsArray[index].getColor(), fontSize: this.state.textsArray[index].getFontSize() }}>
+                                                <div id={index} onClick = {() => this.handleClick(index)} style = {{color: this.state.textsArray[index].getColor(), fontSize: this.state.textsArray[index].getFontSize() }}>
                                                     {single_text.getText()}
-                                                </div>
-                                                <div className="edit">
-                                                    <i style ={{fontSize: "0.9em", verticalAlign: "100%"}} onClick = {() => this.handleClick(index)} class="fa fa-pencil fa-lg"></i>
                                                 </div>
                                             </div>
                                         ))}

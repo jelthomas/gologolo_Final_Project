@@ -468,51 +468,33 @@ var mutation = new GraphQLObjectType({
                         }
                         return image;
                 }
+            },
+            deleteLogo: {
+                type: UserType,
+                args: {
+                    id: {
+                        name: '_id',
+                        type: GraphQLString
+                    },
+                    logoId: {
+                        name: '_id',
+                        type: GraphQLString
+                    }
+                },
+                resolve: function (root, params) {
+                    const logo = userModel.update(
+                        { "_id": params.id},
+                        { "$pull": {"logos": {"_id" : params.logoId}}
+                        }
+                    );
+                    if (!logo) {
+                            throw new Error('Error')
+                        }
+                        return logo;
+                }
             }
-        }
 
-        //     updateLogo: {
-        //         type: logoType,
-        //         args: {
-        //             id: {
-        //                 name: 'id',
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             },
-        //             text: {
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             },
-        //             color: {
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             },
-        //             backgroundColor: {
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             },
-        //             borderColor: {
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             },
-        //             fontSize: {
-        //                 type: new GraphQLNonNull(GraphQLInt)
-        //             },
-        //             borderRadius: {
-        //                 type: new GraphQLNonNull(GraphQLInt)
-        //             },
-        //             borderWidth: {
-        //                 type: new GraphQLNonNull(GraphQLInt)
-        //             },
-        //             padding: {
-        //                 type: new GraphQLNonNull(GraphQLInt)
-        //             },
-        //             margin: {
-        //                 type: new GraphQLNonNull(GraphQLInt)
-        //             }
-        //         },
-        //         resolve(root, params) {
-        //             return LogoModel.findByIdAndUpdate(params.id, { text: params.text, color: params.color, backgroundColor: params.backgroundColor, borderColor: params.borderColor, fontSize: params.fontSize, 
-        //                 borderRadius: params.borderRadius, borderWidth: params.borderWidth, padding: params.padding, margin: params.margin, lastUpdate: new Date() }, function (err) {
-        //                 if (err) return next(err);
-        //             });
-        //         }
-        //     },
+        }
         //     removeLogo: {
         //         type: logoType,
         //         args: {

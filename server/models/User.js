@@ -25,7 +25,7 @@ var UserSchema = new mongoose.Schema({
               borderWidth: {type: Number, min: 0, max: 100}
            }],
            images: [{id: String,
-              imageUrl: String,
+              imageURL: String,
               imageHeight: {type: Number, min: 0, max: 100},
               imageWidth: {type: Number, min: 0, max: 100}
          }]      

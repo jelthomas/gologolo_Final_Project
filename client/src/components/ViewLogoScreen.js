@@ -21,11 +21,7 @@ query logo($id: String!, $logoId: String!){
                 _id
                 text
                 color
-                backgroundColor
-                borderColor
                 fontSize
-                borderRadius
-                borderWidth
             }
             images{
                 _id
@@ -38,25 +34,9 @@ query logo($id: String!, $logoId: String!){
 }
 `;
 
-// query logo($logoId: String) {
-//     logo(id: $logoId) {
-//         _id
-//         text
-//         color
-//         backgroundColor
-//         borderColor
-//         fontSize
-//         borderRadius
-//         borderWidth
-//         padding
-//         margin
-//         lastUpdate
-//     }
-// }
-
 const DELETE_LOGO = gql`
-  mutation removeLogo($id: String!) {
-    removeLogo(id:$id) {
+  mutation deleteLogo($id: String!, $logoId: String!) {
+    deleteLogo(id: $id, logoId: $logoId) {
       _id
     }
   }
@@ -64,13 +44,24 @@ const DELETE_LOGO = gql`
 
 class ViewLogoScreen extends Component {
 
+    textPopulate = (text, color, fontSize) =>{
+        document.getElementById("textText").innerHTML = text;
+        document.getElementById("textColor").innerHTML = color;
+        document.getElementById("textFontSize").innerHTML = fontSize;
+    }
+
+    imagePopulate = (url, height, width) =>{
+        document.getElementById("imageURL").innerHTML = url;
+        document.getElementById("imageHeight").innerHTML = height;
+        document.getElementById("imageWidth").innerHTML = width;
+    }
+
     render() {
         return (
-            <Query pollInterval={50} query={GET_LOGO} variables={{id: "5eb5cbc5be919ea129bddccd",logoId: this.props.match.params.id }}>
+            <Query pollInterval={50} query={GET_LOGO} variables={{id: this.props.match.params.id, logoId: this.props.match.params.logoId }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-
                     return (
                     <div>
                         <div className="container row">
@@ -121,24 +112,6 @@ class ViewLogoScreen extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="form-group">
-                                                        <div className="col s4" >Text:</div>
-                                                        <div className="col s8" style={{display: "inline-grid"}}>
-                                                        <pre id = "myPre">
-                                                        {/* {data.user.logos.texts.text} */}
-                                                        </pre>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="form-group">
-                                                        <div className="col s4">Color:</div>
-                                                        <div className="col s8" style={{alignItems: "right"}}>
-                                                        {/* {data.user.logos.texts.color} */}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="form-group">
                                                         <div className="col s4">Background Color:</div>
                                                         <div className="col s8">
                                                         {data.logo.logos[0].backgroundColor}
@@ -150,14 +123,6 @@ class ViewLogoScreen extends Component {
                                                         <div className="col s4">Border Color:</div>
                                                         <div className="col s8">
                                                         {data.logo.logos[0].borderColor}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="form-group">
-                                                        <div className="col s4">Font Size:</div>
-                                                        <div className="col s8">
-                                                        {/* {data.user.logos.texts.fontSize} */}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,14 +142,62 @@ class ViewLogoScreen extends Component {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4" >Text:</div>
+                                                        <div className="col s8" style={{display: "inline-grid"}}>
+                                                        <pre id = "textText" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on text to view</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4">Color:</div>
+                                                        <div className="col s8" style={{alignItems: "right"}}>
+                                                        <pre id = "textColor" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on text to view color</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4">Font Size:</div>
+                                                        <div className="col s8">
+                                                        <pre id = "textFontSize" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on text to view font size</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4" >Image URL:</div>
+                                                        <div className="col s8" style={{display: "inline-grid"}}>
+                                                        <pre id = "imageURL" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on image to view url</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4">Image Height:</div>
+                                                        <div className="col s8" style={{alignItems: "right"}}>
+                                                        <pre id = "imageHeight" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on image to view height</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="form-group">
+                                                        <div className="col s4">Image Width:</div>
+                                                        <div className="col s8">
+                                                        <pre id = "imageWidth" style = {{fontSize: "11.3pt", color: "white", fontFamily: "Lexend Exa"}}>Click on image to view width</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <Mutation mutation={DELETE_LOGO} key={data.logo.logos[0]._id} onCompleted={() => this.props.history.push('/')}>
-                                        {(removeLogo, { loading, error }) => (
+                                        {(deleteLogo, { loading, error }) => (
                                             <div style={{marginBottom:"1.5rem", textAlign:"center"}}>
                                                 <form 
                                                     onSubmit={e => {
                                                         e.preventDefault();
-                                                        removeLogo({ variables: { id: data.logo.logos[0]._id } });
+                                                        deleteLogo({ variables: { id: this.props.match.params.id, logoId: this.props.match.params.logoId } });
                                                     }}>
                                                     <Link to={`/edit/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
                                                 <button type="submit" className="btn btn-danger" style={{backgroundColor: "red", fontFamily: "Lexend Exa"}}>Delete</button>
@@ -198,18 +211,32 @@ class ViewLogoScreen extends Component {
                                         {error && <p>Error :( Please try again</p>}
                                     </div>
                                     <div className="col s8" style={{width:"66.66666%", height: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
-                                <div>
                                     <pre className="logo" style={{
-                                width: data.logo.logos[0].width,
-                                height: data.logo.logos[0].height,
-                                background: data.logo.logos[0].backgroundColor,
-                                borderColor: data.logo.logos[0].borderColor,
-                                borderRadius: data.logo.logos[0].borderRadius,
-                                borderWidth: data.logo.logos[0].borderWidth,
-                                borderStyle: "solid"}}>
-                                     
+                                        width: data.logo.logos[0].width,
+                                        height: data.logo.logos[0].height,
+                                        background: data.logo.logos[0].backgroundColor,
+                                        borderColor: data.logo.logos[0].borderColor,
+                                        borderRadius: data.logo.logos[0].borderRadius,
+                                        borderWidth: data.logo.logos[0].borderWidth,
+                                        borderStyle: "solid", borderStyle: "solid",
+                                        overflowX: "hidden", 
+                                        overflowY: "hidden",
+                                        flexWrap: "wrap",
+                                        display: "flex"}}>
+                                     {data.logo.logos[0].texts.map((single_text, index) => (
+                                            <div className="profile-pic">
+                                                <div id={index} onClick = {() => this.textPopulate(single_text.text, single_text.color, single_text.fontSize)} style = {{color: single_text.color, fontSize: single_text.fontSize + "pt" }}>
+                                                    {single_text.text}
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {data.logo.logos[0].images.map((single_image, index) => (
+                                            <div className="profile-pic">
+                                                <img id={index} onClick = {() => this.imagePopulate(single_image.imageURL, single_image.imageHeight, single_image.imageWidth)} src = {single_image.imageURL} alt = "error" height = {single_image.imageHeight} width = {single_image.imageWidth}>
+                                                </img>
+                                            </div>
+                                        ))}
                                     </pre>
-                                </div>
                             </div>
                                     </div>
                                 </div>

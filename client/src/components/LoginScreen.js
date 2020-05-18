@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import AuthService from '../Services/AuthService';
-import { AuthContext } from '../Context/AuthContext';
 
 class LoginScreen extends Component {
   constructor() {
