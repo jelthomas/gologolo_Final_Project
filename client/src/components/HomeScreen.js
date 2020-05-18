@@ -4,7 +4,6 @@ import '../App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import AuthService from '../Services/AuthService';
-import { AuthContext } from '../Context/AuthContext';
 
 const GET_USERS = gql`
 {

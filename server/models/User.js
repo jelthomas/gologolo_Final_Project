@@ -9,22 +9,23 @@ var UserSchema = new mongoose.Schema({
   logos: [{
          id: String, 
          name: String,
-         height: {type: Number, min: 0, max: 700},
-         width: {type: Number, min: 0, max: 700},
+         height: {type: Number, min: 0, max: 650},
+         width: {type: Number, min: 0, max: 650},
          backgroundColor: String,
          borderColor: String,
-         borderRadius: {type: Number, min: 0, max: 150},
-         borderWidth: {type: Number, min: 0, max: 150},
+         borderRadius: {type: Number, min: 0, max: 200},
+         borderWidth: {type: Number, min: 0, max: 200},
          margin: {type: Number, min: 0, max: 200},
          padding: {type: Number, min: 0, max: 200},
          texts: [{id: String,
               text: String,
-              color: String
+              color: String,
+              fontSize: {type: Number, min: 4, max: 150}
            }],
            images: [{id: String,
               imageURL: String,
-              imageHeight: {type: Number, min: 0, max: 100},
-              imageWidth: {type: Number, min: 0, max: 100}
+              imageHeight: {type: Number, min: 4, max: 200},
+              imageWidth: {type: Number, min: 4, max: 200}
          }]      
   }]
 }, {collection: "Users"}, );

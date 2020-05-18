@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import '../App.css';
 
 class TextObject{
@@ -17,10 +15,10 @@ class TextObject{
             this.color = color;
         }
         if(fontSize === undefined){
-            this.fontSize = "12pt";
+            this.fontSize = "12px";
         }
         else{
-            this.fontSize = fontSize + "pt";
+            this.fontSize = fontSize + "px";
         }
     }
 
@@ -45,7 +43,7 @@ class TextObject{
     }
 
     setFontSize(fontSize){
-        this.fontSize = fontSize + "pt";
+        this.fontSize = fontSize + "px";
     }
 }
 

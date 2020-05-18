@@ -65,19 +65,7 @@ var TextType = new GraphQLObjectType({
         color: {
             type: GraphQLString
         },
-        backgroundColor: {
-            type: GraphQLString
-        },
-        borderColor: {
-            type: GraphQLString
-        },
         fontSize: {
-            type: GraphQLInt
-        },
-        borderRadius: {
-            type: GraphQLInt
-        },
-        borderWidth: {
             type: GraphQLInt
         }
       }
@@ -511,6 +499,68 @@ var mutation = new GraphQLObjectType({
                             throw new Error('Error')
                         }
                         return logo;
+                }
+            },
+            updateLogo: {
+                type: UserType,
+                args: {
+                    id: {
+                        type: GraphQLString
+                    },
+                    logoId: {
+                        type: GraphQLString
+                    },
+                    name: {
+                        name: 'name',
+                        type: GraphQLString
+                    },
+                    height: {
+                        name: 'height',
+                        type: GraphQLInt
+                    },
+                    width: {
+                        name: 'width',
+                        type: GraphQLInt
+                    },
+                    backgroundColor: {
+                        name: 'backgroundColor',
+                        type: GraphQLString
+                    },
+                    borderColor: {
+                        name: 'borderColor',
+                        type: GraphQLString
+                    },
+                    borderRadius: {
+                        name: 'borderRadius',
+                        type: GraphQLInt
+                    },
+                    borderWidth: {
+                        name: 'borderRadius',
+                        type: GraphQLInt
+                    },
+                    margin: {
+                        name: 'margin',
+                        type: GraphQLInt
+                    },
+                    padding: {
+                        name: 'padding',
+                        type: GraphQLInt
+                    },
+                    texts: {
+                        name: "texts",
+                        type: GraphQLList(TextInput)
+                    },
+                    images: {
+                        name: "images",
+                        type: GraphQLList(ImageInput)
+                    }
+                },
+                resolve: function (root, params) {
+                    const logo = userModel.update({ '_id': params.id, 'logos._id': params.logoId}, {$set: {'logos.$.height': params.height, 'logos.$.width': params.width, 'logos.$.name': params.name, 'logos.$.backgroundColor': params.backgroundColor, 'logos.$.borderColor': params.borderColor, 'logos.$.borderRadius': params.borderRadius, 'logos.$.borderWidth': params.borderWidth, 'logos.$.margin': params.margin, 'logos.$.padding': params.padding, 'logos.$.texts': params.texts, 'logos.$.images': params.images}});
+                    if (!logo) {
+                        throw new Error('Error')
+                    }
+                    return logo;
                 }
             }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation} from 'react-apollo';
 
 const GET_LOGO = gql`
 query logo($id: String!, $logoId: String!){
@@ -60,7 +60,7 @@ class ViewLogoScreen extends Component {
 
     render() {
         return (
-            <Query pollInterval={50} query={GET_LOGO} variables={{id: this.props.match.params.id, logoId: this.props.match.params.logoId }}>
+            <Query pollInterval={50} key = {this.props.match.params.id} query={GET_LOGO} variables={{id: this.props.match.params.id, logoId: this.props.match.params.logoId }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
@@ -217,7 +217,7 @@ class ViewLogoScreen extends Component {
                                                         e.preventDefault();
                                                         deleteLogo({ variables: { id: this.props.match.params.id, logoId: this.props.match.params.logoId } });
                                                     }}>
-                                                    <Link to={`/edit/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
+                                                    <Link to={`/edit/${data.logo._id}/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
                                                 <button type="submit" className="btn btn-danger" style={{backgroundColor: "red", fontFamily: "Lexend Exa"}}>Delete</button>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
@@ -245,14 +245,14 @@ class ViewLogoScreen extends Component {
                                         margin: data.logo.logos[0].margin}}>
                                      {data.logo.logos[0].texts.map((single_text, index) => (
                                             <div className="profile-pic">
-                                                <div id={index} onClick = {() => this.textPopulate(single_text.text, single_text.color, single_text.fontSize)} style = {{color: single_text.color, fontSize: single_text.fontSize + "pt" }}>
+                                                <div onClick = {() => this.textPopulate(single_text.text, single_text.color, single_text.fontSize)} style = {{color: single_text.color, fontSize: single_text.fontSize + "px" }}>
                                                     {single_text.text}
                                                 </div>
                                             </div>
                                         ))}
                                         {data.logo.logos[0].images.map((single_image, index) => (
                                             <div className="profile-pic">
-                                                <img id={index} onClick = {() => this.imagePopulate(single_image.imageURL, single_image.imageHeight, single_image.imageWidth)} src = {single_image.imageURL} alt = "error" height = {single_image.imageHeight} width = {single_image.imageWidth}>
+                                                <img onClick = {() => this.imagePopulate(single_image.imageURL, single_image.imageHeight, single_image.imageWidth)} src = {single_image.imageURL} alt = "error" height = {single_image.imageHeight} width = {single_image.imageWidth}>
                                                 </img>
                                             </div>
                                         ))}

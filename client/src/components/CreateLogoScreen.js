@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
-import {Query, Mutation } from "react-apollo";
+import {Mutation } from "react-apollo";
 import { Link } from 'react-router-dom';
-import { Modal, Button} from 'react-materialize';
-import TextInput from 'react-materialize/lib/TextInput';
-import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import TextObject from "./TextObject";
 import ImageObject from "./ImageObject";
@@ -78,20 +75,25 @@ class CreateLogoScreen extends Component {
     }
 
     handlePaddingChange = (event) =>{
+
         this.setState({padding: event.target.value, name: this.state.name, width: this.state.width, height: this.state.height, backgroundColor: this.state.backgroundColor, 
             borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin});
     }
 
     handleBorderRadiusChange = (event) => {
-        console.log("handleBorderRadiusChange to " + event.target.value);
-        this.setState({borderRadius: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
+        if(event.target.value <= 500){
+            console.log("handleBorderRadiusChange to " + event.target.value);
+            this.setState({borderRadius: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
+                height: this.state.height, borderWidth: this.state.borderWidth, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
+            }
     }
 
     handleBorderWidthChange = (event) => {
-        console.log("handleBorderWidthChange to " + event.target.value);
-        this.setState({borderWidth: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
-            height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
+        if(event.target.value <= 500){
+            console.log("handleBorderWidthChange to " + event.target.value);
+            this.setState({borderWidth: event.target.value, borderColor: this.state.borderColor, name: this.state.name, width: this.state.width, 
+                height: this.state.height, borderRadius: this.state.borderRadius, backgroundColor: this.state.backgroundColor, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
+        }
     }
 
     handleBackgroundColorChange = (event) => {
@@ -107,7 +109,7 @@ class CreateLogoScreen extends Component {
     }
 
     handleHeightChange = (event) => {
-        if(event.target.value <= 650){
+        if(event.target.value <= 1000){
             console.log("handleLogoHeightChange to " + event.target.value);
             this.setState({height: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, width: this.state.width, 
                 borderColor: this.state.borderColor, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
@@ -115,7 +117,7 @@ class CreateLogoScreen extends Component {
     }
 
     handleWidthChange = (event) => {
-        if(event.target.value <= 650){
+        if(event.target.value <= 1000){
             console.log("handleLogoWidthChange to " + event.target.value);
             this.setState({width: event.target.value, backgroundColor: this.state.backgroundColor, name: this.state.name, borderColor: this.state.borderColor, 
                 height: this.state.height, borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, textsArray: this.state.textsArray, imagesArray: this.state.imagesArray, margin: this.state.margin, padding: this.state.padding});
@@ -166,13 +168,13 @@ class CreateLogoScreen extends Component {
                 document.getElementById("formUrlInput").value = "";
                 return null;
             }
-            if(isNaN(height) || height < 4 || height > 100){
-                window.alert("Height must be a number between 4 and 100");
+            if(isNaN(height) || height < 4 || height > 650){
+                window.alert("Height must be a number between 4 and 650");
                 document.getElementById("formHeightInput").value = "";
                 return null;
             }
-            if(isNaN(width) || width < 4 || width > 100){
-                window.alert("Width must be a number between 4 and 100");
+            if(isNaN(width) || width < 4 || width > 650){
+                window.alert("Width must be a number between 4 and 650");
                 document.getElementById("formWidthInput").value = "";
                 return null;
             }
@@ -198,13 +200,13 @@ class CreateLogoScreen extends Component {
                 document.getElementById("formUrlInput").value = "";
                 return null;
             }
-            if(isNaN(height) || height < 4 || height > 100){
-                window.alert("Height must be a number between 4 and 100");
+            if(isNaN(height) || height < 4 || height > 650){
+                window.alert("Height must be a number between 4 and 650");
                 document.getElementById("formHeightInput").value = "";
                 return null;
             }
-            if(isNaN(width) || width < 4 || width > 100){
-                window.alert("Width must be a number between 4 and 100");
+            if(isNaN(width) || width < 4 || width > 650){
+                window.alert("Width must be a number between 4 and 650");
                 document.getElementById("formWidthInput").value = "";
                 return null;
             }
@@ -229,6 +231,7 @@ class CreateLogoScreen extends Component {
 
 
     handleClick = (index) =>{
+        this.closeImageForm();
         document.getElementById("formTextInput").value = this.state.textsArray[index].text;
         document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
         document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
@@ -282,7 +285,7 @@ class CreateLogoScreen extends Component {
 
     handleTextFontSizeChange = (val) =>{
         let v = parseInt(val,10);
-        if((v <= 100) && (v >= 4)){
+        if((v <= 150) && (v >= 4)){
             console.log("Changing the font size of text #" + this.state.currentIndex + " to: " +  v);
             let texts = this.state.textsArray;
             texts[this.state.currentIndex].fontSize = v;
@@ -362,7 +365,7 @@ class CreateLogoScreen extends Component {
                                             Font Size:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formFontSizeInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formFontSizeInput" min = '4' max = '150' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = {e => this.handleTextFontSizeChange(e.target.value)}/>
                                         </div>
                                     </div>
@@ -395,7 +398,7 @@ class CreateLogoScreen extends Component {
                                             Image Height:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formHeightInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formHeightInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = ""/>
                                         </div>
                                     </div>
@@ -406,7 +409,7 @@ class CreateLogoScreen extends Component {
                                             Image Width:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formWidthInput" min = '4' max = '100' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formWidthInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = ""/>
                                         </div>
                                     </div>
