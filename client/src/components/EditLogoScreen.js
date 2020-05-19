@@ -211,7 +211,6 @@ class EditLogoScreen extends Component {
             var image = new ImageObject(url, height, width);
             var newImages = this.state.imagesArray.concat(image);
             this.setState({imagesArray: newImages}); //Add new image object to array
-            console.log(this.state.imagesArray);
             this.closeImageForm();
         });
     }
@@ -265,7 +264,6 @@ class EditLogoScreen extends Component {
         document.getElementById("formTextInput").value = this.state.textsArray[index].text;
         document.getElementById("formColorInput").value = this.state.textsArray[index].color;
         document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
-        console.log("Opened");
         document.getElementById("asd").style.display = "block";
         this.setState({currentIndex: index});
     }
@@ -278,7 +276,6 @@ class EditLogoScreen extends Component {
         document.getElementById("formUrlInput").value = this.state.imagesArray[index].imageURL;
         document.getElementById("formHeightInput").value = this.state.imagesArray[index].imageHeight;
         document.getElementById("formWidthInput").value = this.state.imagesArray[index].imageWidth;
-        console.log("Opened");
         this.setState({currentIndex: index});
     }
 
@@ -291,7 +288,6 @@ class EditLogoScreen extends Component {
     }
 
     closeForm = () =>{
-        console.log("Closed");
         document.getElementById("asd").style.display = "none";
     }
 
@@ -364,7 +360,6 @@ class EditLogoScreen extends Component {
                             borderRadius: data.logo.logos[0].borderRadius, padding: data.logo.logos[0].padding, margin: data.logo.logos[0].margin, textsArray: data.logo.logos[0].texts, 
                             imagesArray: data.logo.logos[0].images});
                     }
-                    console.log(this.state.textsArray);
                     return (
                         <Mutation mutation={UPDATE_LOGO} onCompleted={() => this.props.history.push('/')}>
                 {(updateLogo, { loading, error }) => (
@@ -497,7 +492,6 @@ class EditLogoScreen extends Component {
                                         delete arr2[i]._id;
                                         delete arr2[i].__typename;
                                     }
-                                    console.log(name.value);
                                     updateLogo({ variables: {id: this.props.match.params.id, logoId: this.props.match.params.logoId, name: name.value, height: parseInt(height.value), width: parseInt(width.value), backgroundColor: backgroundColor.value, 
                                         borderColor: borderColor.value, borderRadius: parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value), margin: parseInt(margin.value), padding: parseInt(padding.value), texts: arr, images: arr2} });
                                     name.value = "";

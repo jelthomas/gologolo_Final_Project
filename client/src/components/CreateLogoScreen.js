@@ -181,7 +181,6 @@ class CreateLogoScreen extends Component {
             var image = new ImageObject(url, height, width);
             var newImages = this.state.imagesArray.concat(image);
             this.setState({imagesArray: newImages}); //Add new image object to array
-            console.log(this.state.imagesArray);
             this.closeImageForm();
         });
     }
@@ -235,7 +234,6 @@ class CreateLogoScreen extends Component {
         document.getElementById("formTextInput").value = this.state.textsArray[index].text;
         document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
         document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
-        console.log("Opened");
         document.getElementById("asd").style.display = "block";
         this.setState({currentIndex: index});
     }
@@ -248,7 +246,6 @@ class CreateLogoScreen extends Component {
         document.getElementById("formUrlInput").value = this.state.imagesArray[index].imageURL;
         document.getElementById("formHeightInput").value = this.state.imagesArray[index].imageHeight;
         document.getElementById("formWidthInput").value = this.state.imagesArray[index].imageWidth;
-        console.log("Opened");
         this.setState({currentIndex: index});
     }
 
@@ -261,7 +258,6 @@ class CreateLogoScreen extends Component {
     }
 
     closeForm = () =>{
-        console.log("Closed");
         document.getElementById("asd").style.display = "none";
     }
 

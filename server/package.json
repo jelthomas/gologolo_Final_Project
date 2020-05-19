@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "bluebird": "^3.5.4",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
@@ -19,6 +20,7 @@
     "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.5.2",
     "morgan": "~1.9.0",
-    "react-materialize": "^3.5.9"
+    "react-materialize": "^3.5.9",
+    "socket.io": "^2.3.0"
   }
 }

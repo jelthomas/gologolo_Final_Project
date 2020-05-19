@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
@@ -13,7 +13,10 @@ import EditLogoScreen from './components/EditLogoScreen';
 import CreateLogoScreen from './components/CreateLogoScreen';
 import ViewLogoScreen from './components/ViewLogoScreen';
 import ViewAccountScreen from './components/ViewAccountScreen';
-import RegisterScreen from './components/RegisterScreen';
+import Login from './components/Login';
+import Register from './components/Register';
+import Profile from './components/Profile';
+
 
 const client = new ApolloClient({ uri: 'http://localhost:3000/graphql' });
 
@@ -22,7 +25,10 @@ ReactDOM.render(
         <Router>
             <div>
                 <Route path='/edit/:id/:logoId' component={EditLogoScreen} />
-                <Route exact path='/' component={HomeScreen} />
+                <Route exact path='/' component={Login} />
+                <Route path='/home/:id' component={HomeScreen} />
+                <Route exact path='/register' component={Register} />
+                <Route exact path='/profile' component={Profile} />
                 <Route path='/create/:id' component={CreateLogoScreen} />
                 <Route path='/view/:id/:logoId' component={ViewLogoScreen} />
                 <Route path='/account/:id' component={ViewAccountScreen} />
@@ -36,3 +42,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://create-react-app.dev/docs/making-a-progressive-web-app/
 serviceWorker.unregister();
+
+

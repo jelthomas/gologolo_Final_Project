@@ -5,14 +5,14 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 
 const GET_USERS = gql`
-{
-    user(id:"5eb5cbc5be919ea129bddccd"){
+query user($id: String!){
+	user(id: $id){
         _id
         username
         email
         password
     }
-  }
+}
 `;
 
 const UPDATE_USER = gql`
@@ -111,11 +111,12 @@ class ViewAccountScreen extends Component {
 
     render() {
         return (
-            <Query pollInterval={50} query={GET_USERS}>
+            <Query pollInterval={50} query={GET_USERS} variables={{ id: this.props.match.params.id}} >
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
                     if(this.state.username === null){
+
                         this.setState({username: data.user.username, email: data.user.email, password: data.user.password});
                     }
                     return (
@@ -131,37 +132,16 @@ class ViewAccountScreen extends Component {
                                 </div>
                             </div>
                             <div className="container row" style = {{width: "50%"}}>
-                                {/* <div style={{backgroundColor: "white", margin: "auto", width: "inherit"}}>
-                                    <div style={{textAlign: "left"}}>
-                                        <div style={{display: "inline-block"}}>
-                                            <h1>Username:</h1>
-                                        </div>
-                                        <div style={{display: "inline-block"}}>
-                                            <h1>{data.user.username}</h1>
-                                        </div>
-                                    </div>
-                                    <div style={{textAlign: "left"}}>
-                                        <h1 style={{display: "inline"}}>Email:</h1>
-                                        <h1 style={{display: "inline"}}>{data.user.email}</h1>
-                                    </div>
-                                    <div>
-                                        <h1 style={{display: "inline", textAlign: "left"}}>Password:</h1>
-                                        <h1 style={{display: "inline", textAlign: "center"}}>{data.user.password}</h1>
-                                    </div>
-                                    
-                                </div> */}
                                 <div className = "col s4" style = {{textAlign: "left", maxWidth: "max-content"}}>
                                     <div>
                                         <div style = {{fontSize: "24pt"}}><b>Username:</b></div>
                                         <div style = {{fontSize: "24pt"}}><b>Email:</b></div>
-                                        <div style = {{fontSize: "24pt"}}><b>Password:</b></div>
                                     </div>
                                 </div>
                                 <div className = "col s4">
                                     <div style = {{textAlign: "left", maxWidth: "max-content"}}>
                                         <div style = {{fontSize: "24pt", display: "inline"}}>{data.user.username}</div>
                                         <div style = {{fontSize: "24pt"}}>{data.user.email}</div>
-                                        <div style = {{fontSize: "24pt"}}>{data.user.password}</div>
                                     </div>
                                 </div>
                                 <div className = "col s4" style = {{textAlign: "left", maxWidth: "max-content"}}>
@@ -171,9 +151,6 @@ class ViewAccountScreen extends Component {
                                         </div>
                                         <div style = {{fontSize: "24pt"}}>
                                             <button onClick ={this.changeEmail} style = {{backgroundColor: "lightgreen", borderColor: "black", borderRadius: "16px", borderWidth: "1px"}}>Change</button>
-                                        </div>
-                                        <div style = {{fontSize: "24pt"}}>
-                                            <button onClick ={this.changePassword} style = {{backgroundColor: "lightgreen", borderColor: "black", borderRadius: "16px", borderWidth: "1px"}}>Change</button>
                                         </div>
                                     </div>
                                 </div>
