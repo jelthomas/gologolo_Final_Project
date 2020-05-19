@@ -236,7 +236,7 @@ class ViewLogoScreen extends Component {
                                         borderColor: data.logo.logos[0].borderColor,
                                         borderRadius: data.logo.logos[0].borderRadius,
                                         borderWidth: data.logo.logos[0].borderWidth,
-                                        borderStyle: "solid", borderStyle: "solid",
+                                        borderStyle: "solid",
                                         overflowX: "hidden", 
                                         overflowY: "hidden",
                                         flexWrap: "wrap",

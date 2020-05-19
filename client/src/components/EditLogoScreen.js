@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 import TextObject from "./TextObject";

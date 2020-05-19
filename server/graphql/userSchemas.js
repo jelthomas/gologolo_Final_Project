@@ -319,7 +319,7 @@ var mutation = new GraphQLObjectType({
                 type: UserType,
                 args: {
                     id: {
-                        name:'id',
+                        name: '_id',
                         type: GraphQLString
                     },
                     username: {
@@ -327,15 +327,14 @@ var mutation = new GraphQLObjectType({
                     },
                     email: {
                         type: GraphQLString
-                    },
-                    password: {
-                        type: GraphQLString
                     }
                 },
                 resolve: function (root, params) {
-                    return userModel.findByIdAndUpdate(params.id, { usernname: params.username, email: params.email, password: params.password}, function (err) {
-                        if (err) return next(err);
-                    });
+                    const user = userModel.findByIdAndUpdate({"_id": params.id}, { username: params.username, email: params.email});
+                    if (!user) {
+                        throw new Error('Error')
+                    }
+                    return user;
                 }
             },
             addLogo: {
@@ -565,21 +564,6 @@ var mutation = new GraphQLObjectType({
             }
 
         }
-        //     removeLogo: {
-        //         type: logoType,
-        //         args: {
-        //             id: {
-        //                 type: new GraphQLNonNull(GraphQLString)
-        //             }
-        //         },
-        //         resolve(root, params) {
-        //             const remLogo = LogoModel.findByIdAndRemove(params.id).exec();
-        //             if (!remLogo) {
-        //                 throw new Error('Error')
-        //             }
-        //             return remLogo;
-        //         }
-        //     }
     }
 });
 

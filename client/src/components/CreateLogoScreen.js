@@ -350,7 +350,7 @@ class CreateLogoScreen extends Component {
                                             Text Color:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formColorInput" type="color" style = {{width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formColorInput" type="color" style = {{width: "50%"}} name="logoName" className="form-control" ref={node => {
                                                 name = node;}} placeholder="" onChange = {e => this.handleTextColorChange(e.target.value)}/>
                                         </div>
                                     </div>
@@ -361,7 +361,7 @@ class CreateLogoScreen extends Component {
                                             Font Size:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formFontSizeInput" min = '4' max = '150' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formFontSizeInput" min = '4' max = '150' type="number" style = {{color: "black", width: "50%"}} className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = {e => this.handleTextFontSizeChange(e.target.value)}/>
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@ class CreateLogoScreen extends Component {
                                             Image Height:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formHeightInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formHeightInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = ""/>
                                         </div>
                                     </div>
@@ -405,7 +405,7 @@ class CreateLogoScreen extends Component {
                                             Image Width:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formWidthInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                            <input id= "formWidthInput" min = '4' max = '650' type="number" style = {{color: "black", width: "50%"}} className="form-control" name="logoName" ref={node => {
                                                 name = node;}} placeholder="" onChange = ""/>
                                         </div>
                                     </div>
@@ -469,7 +469,7 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4" style = {{marginTop: "10px"}}>Logo Name:</div>
                                                 <div className="col s8">
-                                                    <input type="text" style = {{color: "white"}} name="logoName" className="form-control" name="logoName" ref={node => {
+                                                    <input type="text" style = {{color: "white"}} className="form-control" name="logoName" ref={node => {
                                                         name = node;
                                                     }} placeholder={this.state.name} value = {this.state.name} onChange = {this.handleNameChange}/>
                                                 </div>
@@ -479,7 +479,7 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4" style = {{marginTop: "10px"}}>Logo Height:</div>
                                                 <div className="col s8">
-                                                    <input type="number" style = {{color: "white"}} name="logoHeight" min="10" max="650" className="form-control" name="logoHeight" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} min="10" max="650" className="form-control" name="logoHeight" ref={node => {
                                                         height = node;
                                                     }} placeholder={this.state.height} value = {this.state.height} onChange = {this.handleHeightChange}/>
                                                 </div>
@@ -489,7 +489,7 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4" style = {{marginTop: "10px"}}>Logo Width:</div>
                                                 <div className="col s8">
-                                                    <input type="number" style = {{color: "white"}} name="logoWidth" min="10" max="650" className="form-control" name="logoWidth" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} min="10" max="650" className="form-control" name="logoWidth" ref={node => {
                                                         width = node;
                                                     }} placeholder={this.state.width} value = {this.state.width} onChange = {this.handleWidthChange}/>
                                                 </div>
@@ -519,7 +519,7 @@ class CreateLogoScreen extends Component {
                                             <div className="form-group">
                                                 <div className="col s4">Border Radius:</div>
                                                 <div className="col s8">
-                                                    <input type="number" style = {{color: "white"}} name="borderRadius" min="0" max="200" className="form-control" name="borderRadius" ref={node => {
+                                                    <input type="number" style = {{color: "white"}} min="0" max="200" className="form-control" name="borderRadius" ref={node => {
                                                         borderRadius = node;
                                                     }} placeholder={this.state.borderRadius} onChange={this.handleBorderRadiusChange} value={this.state.borderRadius}/>
                                                 </div>

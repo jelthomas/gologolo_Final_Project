@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
@@ -15,7 +15,6 @@ import ViewLogoScreen from './components/ViewLogoScreen';
 import ViewAccountScreen from './components/ViewAccountScreen';
 import Login from './components/Login';
 import Register from './components/Register';
-import Profile from './components/Profile';
 
 
 const client = new ApolloClient({ uri: 'http://localhost:3000/graphql' });
@@ -28,7 +27,6 @@ ReactDOM.render(
                 <Route exact path='/' component={Login} />
                 <Route path='/home/:id' component={HomeScreen} />
                 <Route exact path='/register' component={Register} />
-                <Route exact path='/profile' component={Profile} />
                 <Route path='/create/:id' component={CreateLogoScreen} />
                 <Route path='/view/:id/:logoId' component={ViewLogoScreen} />
                 <Route path='/account/:id' component={ViewAccountScreen} />

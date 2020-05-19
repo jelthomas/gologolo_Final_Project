@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import AuthService from '../Services/AuthService';
 
 const GET_USERS = gql`
 query user($id: String!){
