@@ -59,7 +59,8 @@ class CreateLogoScreen extends Component {
             padding: 0,
             textsArray: [],
             imagesArray: [],
-            currentIndex: 0
+            currentIndex: 0,
+            message: ''
         }
     }
 
@@ -125,6 +126,10 @@ class CreateLogoScreen extends Component {
     }
 
     checkNull = () => {
+        if(!this.isNotEmpty()){
+            alert("Selected text cannot be empty!");
+            return false;
+        }
         var names = ['borderRadius', 'borderWidth', 'logoWidth', 'logoHeight', 'margin', 'padding']
         var logoName = document.forms["myForm"]['logoName'].value;
         for(let i = 0; i < names.length; i++){
@@ -142,10 +147,12 @@ class CreateLogoScreen extends Component {
     }
 
     addText = () => {
-        this.closeImageForm();
-        var text = new TextObject();
-        var newTexts = this.state.textsArray.concat(text);
-        this.setState({textsArray: newTexts}); //Add new default text object to array
+        if(this.isNotEmpty()){
+            this.closeImageForm();
+            var text = new TextObject();
+            var newTexts = this.state.textsArray.concat(text);
+            this.setState({textsArray: newTexts}); //Add new default text object to array
+        }
     }
 
     imageExists(url, callback){
@@ -220,22 +227,26 @@ class CreateLogoScreen extends Component {
 
 
     imageForm = () =>{
-        document.getElementById("formUrlInput").value = "";
-        document.getElementById("formHeightInput").value = "";
-        document.getElementById("formWidthInput").value = "";
-        document.getElementById("addImage").style.display = "block";
-        document.getElementById("deleteImage").style.display = "none";
-        document.getElementById("imageForm").style.display = "block";
+        if(this.isNotEmpty()){
+            document.getElementById("formUrlInput").value = "";
+            document.getElementById("formHeightInput").value = "";
+            document.getElementById("formWidthInput").value = "";
+            document.getElementById("addImage").style.display = "block";
+            document.getElementById("deleteImage").style.display = "none";
+            document.getElementById("imageForm").style.display = "block";
+        }
     }
 
 
     handleClick = (index) =>{
-        this.closeImageForm();
-        document.getElementById("formTextInput").value = this.state.textsArray[index].text;
-        document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
-        document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
-        document.getElementById("asd").style.display = "block";
-        this.setState({currentIndex: index});
+        if(this.isNotEmpty()){
+            this.closeImageForm();
+            document.getElementById("formTextInput").value = this.state.textsArray[index].text;
+            document.getElementById("formColorInput").value = this.state.textsArray[index].getColor();
+            document.getElementById("formFontSizeInput").value = parseInt(this.state.textsArray[index].fontSize,10);
+            document.getElementById("asd").style.display = "block";
+            this.setState({currentIndex: index});
+        }
     }
 
     handleImageClick = (index) =>{
@@ -257,8 +268,21 @@ class CreateLogoScreen extends Component {
         this.setState({imagesArray: updated, currentIndex: 0});
     }
 
+    isNotEmpty = () =>{
+        let texts = this.state.textsArray;
+        if(texts.length > 0 && texts[this.state.currentIndex].text.trim().length === 0){
+            this.setState({message: "Text cannot be empty!"});
+            return false;
+        }
+        this.setState({message: ''});
+        return true;
+    }
+
+
     closeForm = () =>{
-        document.getElementById("asd").style.display = "none";
+        if(this.isNotEmpty()){
+            document.getElementById("asd").style.display = "none";
+        }
     }
 
     closeImageForm = () =>{
@@ -293,8 +317,8 @@ class CreateLogoScreen extends Component {
         console.log("About to delete text #" + this.state.currentIndex);
         var updated = this.state.textsArray;
         updated.splice(this.state.currentIndex,1);
-        this.closeForm();
         this.setState({textsArray: updated, currentIndex: 0});
+        document.getElementById("asd").style.display = "none";
     }
 
     render() {
@@ -335,6 +359,7 @@ class CreateLogoScreen extends Component {
                         <div id="asd" style = {{display: "none", backgroundColor: "white", borderRadius: "15px", borderStyle: "solid", borderWidth: "2px"}}>
                                 <div className="row" style={{paddingTop: "20px"}}>
                                 <button onClick = {this.closeForm} style ={{position: "absolute", right: "5px", top: "5px", borderRadius: "7px", backgroundColor: "red"}}>x</button>
+                                    <div style ={{color: "red"}}>{this.state.message}</div>
                                     <div className="form-group">
                                         <div className="col s4" style = {{marginTop: "10px", color: "black"}}>
                                             Text:

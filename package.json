@@ -29,6 +29,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "prop-types": "^15.7.2",
+    "react-component-export-image": "^0.1.6",
     "react-dom": "^16.13.1",
     "react-materialize": "^3.5.9",
     "react-router-dom": "^5.2.0",
