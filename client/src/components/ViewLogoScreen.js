@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query, Mutation} from 'react-apollo';
+import html2canvas from 'html2canvas';
 
 const GET_LOGO = gql`
 query logo($id: String!, $logoId: String!){
@@ -45,6 +46,15 @@ const DELETE_LOGO = gql`
 `;
 
 class ViewLogoScreen extends Component {
+    constructor() {
+        super();
+
+        // WE'LL MANAGE THE UI CONTROL
+        // VALUES HERE
+        this.state = {
+            message: ''
+        }
+    }
 
     textPopulate = (text, color, fontSize) =>{
         document.getElementById("textText").innerHTML = text;
@@ -58,6 +68,23 @@ class ViewLogoScreen extends Component {
         document.getElementById("imageWidth").innerHTML = width;
     }
 
+    export = () =>{
+        this.setState({message: "Scroll down and right click on the image to save!"})
+        html2canvas(document.getElementById('export'), { letterRendering: 1, allowTaint : true}).then(function(canvas) {
+            canvas.style.textAlign = "center";
+            canvas.style.margin = "auto";
+            canvas.id = "canvas";
+            document.body.appendChild(canvas);
+           });
+    }
+
+    hide = () =>{
+        if(document.getElementById("canvas")){
+            var div = document.getElementById("canvas");
+            div.parentNode.removeChild(div);
+        }
+    }
+
     render() {
         return (
             <Query pollInterval={50} key = {this.props.match.params.id} query={GET_LOGO} variables={{id: this.props.match.params.id, logoId: this.props.match.params.logoId }}>
@@ -68,13 +95,14 @@ class ViewLogoScreen extends Component {
                     <div>
                         <div className="container row">
                             <nav id = "myNav">
-                                <div style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
+                                <div onClick = {() => this.hide()} style={{ display: "inline-block", float: "left"}}><Link style={{color:"white"}} id="homeButton" to="/">Home</Link></div>
+                                <button className="createNew" style={{ cursor: "pointer", display: "inline-block", float: "right", marginRight: "3px", paddingBottom: "15px", paddingTop: "15px"  }} onClick={this.export}>Export Logo</button>
                             </nav>
                         </div>
-                   
+                        <div style = {{color: "blue", fontSize: "30px", margin: "auto", textAlign: "center"}}>{this.state.message}</div>
                         <div className="container">
                                 <div className="panel panel-default">
-                                    <div className="row">
+                                    <div id = "append" className="row">
                                     <div className="panel-body" style={{WebkitBoxShadow: "0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)", width:"33.3333%", marginTop: "0.5rem", borderRadius: "5px", backgroundColor: "white", paddingLeft: "0.75rem", paddingRight: "0.75rem", display: "inline-table"}}>
                                             <div className="panel-title" style={{textAlign: "center", backgroundColor: "#546e7a", color: "white", marginTop: "0.5rem", marginBottom: "1rem", borderRadius: "5px"}}>
                                                 <div style={{paddingTop: "0.5rem", paddingBottom: "0.5rem", fontSize: "30pt"}}>
@@ -214,10 +242,11 @@ class ViewLogoScreen extends Component {
                                             <div style={{marginBottom:"1.5rem", textAlign:"center"}}>
                                                 <form 
                                                     onSubmit={e => {
+                                                        this.hide();
                                                         e.preventDefault();
                                                         deleteLogo({ variables: { id: this.props.match.params.id, logoId: this.props.match.params.logoId } });
                                                     }}>
-                                                    <Link to={`/edit/${data.logo._id}/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
+                                                    <Link onClick = {() => this.hide()} to={`/edit/${data.logo._id}/${data.logo.logos[0]._id}`} className="btn btn-success" style={{backgroundColor: "LimeGreen", fontFamily: "Lexend Exa"}}>Edit</Link>&nbsp;
                                                 <button type="submit" className="btn btn-danger" style={{backgroundColor: "red", fontFamily: "Lexend Exa"}}>Delete</button>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
@@ -228,7 +257,7 @@ class ViewLogoScreen extends Component {
                                         {loading && <p>Loading...</p>}
                                         {error && <p>Error :( Please try again</p>}
                                     </div>
-                                    <div className="col s8" style={{width:"66.66666%", height: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
+                                    <div className="col s8" id = "export" style={{width:"66.66666%", height: "max-content", width: "max-content", marginTop: "0.5rem", marginLeft: "0.5rem"}}> 
                                     <pre className="logo" style={{
                                         width: data.logo.logos[0].width,
                                         height: data.logo.logos[0].height,

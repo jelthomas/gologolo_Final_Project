@@ -71,7 +71,7 @@ class ViewAccountScreen extends Component {
 
     render() {
         return (
-            <Query pollInterval={50} query={GET_USERS} variables={{ id: this.props.match.params.id}} >
+            <Query pollInterval={500} query={GET_USERS} variables={{ id: this.props.match.params.id}} >
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;

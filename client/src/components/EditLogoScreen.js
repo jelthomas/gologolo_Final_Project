@@ -375,7 +375,7 @@ class EditLogoScreen extends Component {
         }
         return (
             <Query query={GET_LOGO} key = {this.props.match.params.logoId} variables={{ id: this.props.match.params.id, logoId: this.props.match.params.logoId }}>
-                {({ loading, error, data }) => {
+                {({ loading, error, data}) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
                     if(this.state.name === null){
@@ -450,7 +450,7 @@ class EditLogoScreen extends Component {
                                             Url:
                                         </div>
                                         <div className="col s8">
-                                            <input id= "formUrlInput" type="text" style = {{color: "black"}} placeholder=""  onChange = "" />
+                                            <input id= "formUrlInput" type="text" style = {{color: "black"}} placeholder=""  onChange = ""/>
                                         </div>
                                     </div>
                                 </div>

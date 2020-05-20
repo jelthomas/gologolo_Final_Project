@@ -7,7 +7,8 @@ class Register extends Component{
     this.state = {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      message: ''
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -22,7 +23,11 @@ class Register extends Component{
   }
 
   onSubmit(e){
-    e.preventDefault()
+    e.preventDefault();
+    if(this.state.username.trim().length === 0){
+      this.setState({message: "Username cannot be blank!"});
+      return;
+    }
 
     const user = {
       username: this.state.username,
